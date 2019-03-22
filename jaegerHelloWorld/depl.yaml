@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: special-deployment
+  labels:
+    app: jg
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: jg
+  template:
+    metadata:
+      labels:
+        app: jg
+    spec:
+      containers:
+      - name: jgcont
+        image: jaegertracing/all-in-one:1.10
+        ports:
+        - containerPort: 80
