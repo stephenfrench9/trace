@@ -53,13 +53,20 @@ This plan involves launching two docker images from the jaeger tutorials just on
 3. Track Hot-Rod with kubernetes.
 4. Modify source code for hot rod so I have my dummy services.
 
-##### trace/jkub
+##### trace/jkub (following jaeger/jaeger-kubernetes)
 
-- The trace/jkub/ deploys jaeger into Kubernetes. trace/jkub/hot-rod.sh deploys the Hot Rod app into kubernetes. But The app is not functional, nor is it tied to jaeger. Next step: Do a better job of deploying the app? Write a deployment yaml for it? Steal a deployment yaml from the kubernetes tutorials, probably exposing-an-external or managing-services.
+- hot-rod.sh uses kubectl to deploy hot-rod in kubernetes. It is unresponsive
 
-##### trace/managing-resources - launch hot-rod into kubernetes
+- commands.sh launches a bunch of different things many different ways. Among the launched entities are the jaeger-collector, jaeger-query, and jaeger-agent. It should deploy hot-rod but I do not see hot-rod anywhere. 
 
--  Stole a deployment script from trace/managing-resources. Placed the jaeger-all-in-one image into the deployment, modified the ports of the service, the ports of the deployment, and the env variables of the deployment spec to match the command line arguments for launching this container with docker. The image pull successful and starts, but then throws some sort of error and backs of. 
+	- jaeger-all-in-one-template.yml should deploy hot-rod as well as jaeger, but I only see one jaeger agent. 
+
+##### trace/managing-resources - launch hot-rod into kubernetes (following k8s tutorial: managing-resources.)
+
+-  nginx-app.yaml was modified. 
+	-  Placed the jaeger-all-in-one image into the deployment, modified the ports of the service, the ports of the deployment, and the env variables of the deployment spec to match the command line arguments for launching this container with docker. The image pull successful and starts, but then throws some sort of error and backs of. 
+
+#### trace/
 
 
 ## Possible sticking points.
