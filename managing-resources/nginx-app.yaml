@@ -7,7 +7,14 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 16686
+  - name: one
+    port: 8080
+  - name: two
+    port: 8081
+  - name: three
+    port: 8082
+  - name: four
+    port: 8083
   selector:
     app: nginx
 ---
@@ -29,7 +36,18 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: jaegertracing/all-in-one:1.11
+        image: jaegertracing/example-hotrod:latest
         ports:
-        - containerPort: 16686
-	
+        - name: one
+          containerPort: 8080
+        - name: two
+          containerPort: 8081
+        - name: three
+          containerPort: 8082
+        - name: four
+          containerPort: 8083
+        env:
+          - name: JAEGER_AGENT_HOST
+            value: "jaeger"
+          - name: JAEGER_AGENT_PORT
+            value: "6831"

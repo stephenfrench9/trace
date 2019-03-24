@@ -1,1 +1,1 @@
-kubectl create -f https://k8s.io/examples/application/nginx-app.yaml
+kubectl delete -f https://k8s.io/examples/application/nginx-app.yaml

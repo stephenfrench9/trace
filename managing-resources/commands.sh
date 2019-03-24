@@ -1,4 +1,4 @@
-kubectl create -f https://k8s.io/examples/application/nginx-app.yaml
+kubectl create -f nginx-app.yaml
 # kubectl create also accepts multiple -f arguments:
 # kubectl create -f https://k8s.io/examples/application/nginx/nginx-svc.yaml -f https://k8s.io/examples/application/nginx/nginx-deployment.yaml
 # kubectl create -f https://k8s.io/examples/application/nginx/
