@@ -46,12 +46,16 @@ This plan involves launching two docker images from the jaeger tutorials just on
 3. Get into the source code for the jaeger container, try to break it into containers. Maintain the monitoring of the other app.
 4. Modify the hot-rod app services, as well as replicate them, to build my microservice archtecture. 
 
-### use the jaeger-kubernetes/ portion of the jaeger project rather than the jaeger all in one image. (thanks Curtis)
+### Find examples already deployed to kubernetes
 
 1. Deploy Jaeger to kubernetes with jaeger/kubernetes (of the jaeger project).
 2. Deploy Hot-Rod to kubernetes. 
 3. Track Hot-Rod with kubernetes.
 4. Modify source code for hot rod so I have my dummy services.
+
+### Write my own application from scratch. Deploy jaeger backend.
+
+## Attempts
 
 ##### trace/jkub (following jaeger/jaeger-kubernetes)
 
@@ -60,13 +64,32 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - commands.sh launches a bunch of different things many different ways. Among the launched entities are the jaeger-collector, jaeger-query, and jaeger-agent. It should deploy hot-rod but I do not see hot-rod anywhere. 
 
 	- jaeger-all-in-one-template.yml should deploy hot-rod as well as jaeger, but I only see one jaeger agent. 
+	- jaeger-query is successfully launched
+	- jaeger-all-in-one is never launched.
 
 ##### trace/managing-resources - launch hot-rod into kubernetes (following k8s tutorial: managing-resources.)
 
 -  nginx-app.yaml was modified. 
 	-  Placed the jaeger-all-in-one image into the deployment, modified the ports of the service, the ports of the deployment, and the env variables of the deployment spec to match the command line arguments for launching this container with docker. The image pull successful and starts, but then throws some sort of error and backs of. 
 
-#### trace/
+##### trace/hotrod (following jaeger/examples/hotrod)
+
+- not done in kubernetes. 
+- Launch hot-rod and jaeger backend in docker containers.
+
+##### trace/medium (following https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941)
+
+- not done in kubernetes
+- from 2017
+- same as the video, but with commands
+- explanation of jaeger/examples/hotrod
+
+##### trace/openshift - (following openshift commons https://www.youtube.com/watch?v=fjYAU3jayVo)
+
+- Not done in kubernetes
+- Can't see the start of the command line in the video.
+- runs hot rod as well as the standard jaeger.
+- same as trace/medium
 
 
 ## Possible sticking points.
