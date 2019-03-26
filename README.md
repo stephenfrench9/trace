@@ -60,9 +60,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 ##### trace/jkub (following jaeger/jaeger-kubernetes)
 
 - hot-rod.sh uses kubectl to deploy hot-rod in kubernetes. It is unresponsive
-
 - commands.sh launches a bunch of different things many different ways. Among the launched entities are the jaeger-collector, jaeger-query, and jaeger-agent. It should deploy hot-rod but I do not see hot-rod anywhere. 
-
 	- jaeger-all-in-one-template.yml should deploy hot-rod as well as jaeger, but I only see one jaeger agent. 
 	- jaeger-query is successfully launched
 	- jaeger-all-in-one is never launched.
@@ -84,18 +82,28 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - same as the video, but with commands
 - explanation of jaeger/examples/hotrod
 
-##### trace/openshift - (following openshift commons https://www.youtube.com/watch?v=fjYAU3jayVo)
+##### trace/openshift - (openshift commons https://www.youtube.com/watch?v=fjYAU3jayVo)
 
 - Not done in kubernetes
 - Can't see the start of the command line in the video.
 - runs hot rod as well as the standard jaeger.
 - same as trace/medium
 
+##### trace/seaTrials (https://blog.thecodeteam.com/2017/10/09/easy-way-hard-way-jaeger-kubernetes-cncf/)
+
+- put production jaeger into kubernetes
+- Fix up the tiller deployment in kubernetes. 
+- https://github.com/helm/helm
+- commands.sh patches the tiller deployment as well as creating a service account on kubernetes.
+
+##### trace/openTracingLesson (https://github.com/yurishkuro/opentracing-tutorial/tree/master/python)
+
+- deploy python webservers locally. Trace them with jaeger. Specifically openTracingLesson/solution/*.py are webservers imbued with jaeger matter.
 
 ## Possible sticking points.
 
 I have never worked with jaeger and I don't know how to plug it into an app. I have no idea how jaeger works. 
-
+pppp
 I don't know much about computer networks, I will need to write webservers which can send a request to another webserver on the kubernetes network. I think I can write a service which will forward requests published on one of its ports to another service, so that in my source code I can write something like:
 
 	http.sendrequest(r1, 80)
