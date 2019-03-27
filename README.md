@@ -70,12 +70,12 @@ This plan involves launching two docker images from the jaeger tutorials just on
 -  nginx-app.yaml was modified. 
 	-  Placed the jaeger-all-in-one image into the deployment, modified the ports of the service, the ports of the deployment, and the env variables of the deployment spec to match the command line arguments for launching this container with docker. The image pull successful and starts, but then throws some sort of error and backs of. 
 
-##### trace/hotrod (following jaeger/examples/hotrod)
+##### trace/hotrod (jaeger/examples/hotrod)
 
 - not done in kubernetes. 
 - Launch hot-rod and jaeger backend in docker containers.
 
-##### trace/medium (following https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941)
+##### trace/medium (https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941)
 
 - not done in kubernetes
 - from 2017
@@ -83,22 +83,23 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - explanation of jaeger/examples/hotrod
 
 ##### trace/openshift - (openshift commons https://www.youtube.com/watch?v=fjYAU3jayVo)
-
 - Not done in kubernetes
 - Can't see the start of the command line in the video.
 - runs hot rod as well as the standard jaeger.
 - same as trace/medium
 
 ##### trace/seaTrials (https://blog.thecodeteam.com/2017/10/09/easy-way-hard-way-jaeger-kubernetes-cncf/)
-
 - put production jaeger into kubernetes
 - Fix up the tiller deployment in kubernetes. 
 - https://github.com/helm/helm
 - commands.sh patches the tiller deployment as well as creating a service account on kubernetes.
 
 ##### trace/openTracingLesson (https://github.com/yurishkuro/opentracing-tutorial/tree/master/python)
+- deploy python webservers locally. Trace them with jaeger. Specifically openTracingLesson/lesson03/solution/*.py are webservers imbued with jaeger matter.
+- openTracingLesson/lesson03/* is a mess. But this is where I build shark and tootles. Docker images that fun the formatter.py server. They run on 0.0.0.0:5000 which is very different than 127.0.0.1:5000. 
 
-- deploy python webservers locally. Trace them with jaeger. Specifically openTracingLesson/solution/*.py are webservers imbued with jaeger matter.
+##### trace/upper
+-	 
 
 ## Possible sticking points.
 

@@ -27,26 +27,12 @@ def init_tracer(service):
     return config.initialize_tracer()
 
 app = Flask(__name__)
-tracer = init_tracer('formatter') 
+tracer = init_tracer('formatter')
 
 @app.route('/')
 def hello_whale():
-    return "you have found the formatter server"
+    return "Whale, Hello there!"
 
 
-@app.route("/format")
-def format():
-
-    print("Formatter Begin")
-    span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
-    span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
-    with tracer.start_span('format', child_of=span_ctx, tags=span_tags):
-        hello_to = request.args.get('helloTo')
-        print("Formatter Finish")
-        return 'Hello, %s!' % hello_to
-
-
-if __name__ == "__main__":
-    # app.run(port=5000)
+if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-
