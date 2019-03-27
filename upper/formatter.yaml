@@ -1,0 +1,40 @@
+api: v1
+type: service
+deployment: deplone
+labels:
+  servicelabels: servicevalues
+annotations:
+  kubernetes.io/service
+spec:
+  name: servone
+  labels:
+    containerlabel: containerlabel
+  annotations:
+    kubernetes.io/containerannotation
+  selector:
+    containerlabel: containerlabel
+ ---
+api: v1
+type: deployment
+labels:
+  deploymentlabels: deploymentvalues
+annotations:
+  kubernetes.io/deployment
+spec:
+  name: deplone
+  service: servone
+  labels:
+    containerlabel: containerlabel
+  annotations: kubernetes.io/deployment
+               kubernetes.io/replicaset
+  replicas: 1
+  selector:
+    containerlabel: containerlabel
+  template:
+    spec:
+      container:
+        image: https://hub.docker.com/r/stephenfrench9/shark
+        ports:
+          - name: houston
+            value: 5000
+  type: LoadBalancer

@@ -99,7 +99,9 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - openTracingLesson/lesson03/* is a mess. But this is where I build shark and tootles. Docker images that fun the formatter.py server. They run on 0.0.0.0:5000 which is very different than 127.0.0.1:5000. 
 
 ##### trace/upper
--	 
+- put servers up in the cloud
+- formatter.yaml is a deployment with the formatter server at 0.0.0.0:5000
+- nginx-yaml is from managing-resources. Its just a service backed by an nginx-pod.
 
 ## Possible sticking points.
 
