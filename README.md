@@ -74,7 +74,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 ## pathes forward 2
 
 ### microservices from scratch, in python. Jaeger backend native to K8s.  
- 1. 	Jaeger loses the app when it goes into the container. Expose more ports on my server container? Get this working locally, and then do the same to the container in the cloud.
+ 1. Jaeger loses the app when it goes into the container. Expose more ports on my server container? Get this working locally, and then do the same to the container in the cloud.
  2. Read about jaeger. jaegertracing/jaeger, jaegertracing/jaeger-operator, jaegertracing/jaeger-kubernetes, jaegertracing/jaeger-operator.
  3. Probably need to learn stuff like: The jaeger operator allows you to make jaeger objects in kubernetes. 
  3. Read about jaeger. Jaeger website.
