@@ -101,7 +101,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 ##### trace/upper
 - put servers up in the cloud
 - formatter.yaml is a deployment with the formatter server at 0.0.0.0:5000
-- nginx-yaml is from managing-resources. Its just a service backed by an nginx-pod.
+- nginx-yaml is from managing-resources. Its just a service backed by an nginx-pod. except now it is backed by my image. The shark image.
 
 ## Possible sticking points.
 
