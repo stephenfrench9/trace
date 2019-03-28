@@ -34,7 +34,7 @@ There will be ~95 deployments. 90 will comprise my dummy microservice applicatio
 
 - frontend
 
-## Possible paths forward
+## paths forward 1
 
 ### jaeger-all-in-one and Hot-Rod (docker images) on Kubernetes 
 
@@ -54,6 +54,35 @@ This plan involves launching two docker images from the jaeger tutorials just on
 4. Modify source code for hot rod so I have my dummy services.
 
 ### Write my own application from scratch. Deploy jaeger backend.
+
+## Checkpoint March 28 2019
+
+### Local Jaeger
+- Launch dockerized jaeger locally. Use jaegertracing/all-in-one:1.10.
+- Turn on my jaeger enabled server locally. solution/formatter.py. (adapted from g.opentracing/lesson03/)
+- jaeger sees the server traces
+- containerized server functions correctly, but doesn't ship traces to jaeger client
+
+### Kubernetes Jaeger
+- install jaeger with a kubernetes operator. (g.jaegertracing/jaeger-operator). Manually start a jaeger agent. Manually add a a public IP. Visit \<ext ip\>:16686, it works
+- Turn on my jaeger-enabled server container on, wrapped in a deployment attached to a service. Visit it at \<ext ip\>:5000 and \<ext ip\>:5000/format?helloTo=bryn
+
+### Helm
+- do the same thing with Helm.
+
+
+## pathes forward 2
+
+### microservices from scratch, in python. Jaeger backend native to K8s.  
+ 1. 	Jaeger loses the app when it goes into the container. Expose more ports on my server container? Get this working locally, and then do the same to the container in the cloud.
+ 2. Read about jaeger. jaegertracing/jaeger, jaegertracing/jaeger-operator, jaegertracing/jaeger-kubernetes, jaegertracing/jaeger-operator.
+ 3. Probably need to learn stuff like: The jaeger operator allows you to make jaeger objects in kubernetes. 
+ 3. Read about jaeger. Jaeger website.
+ 4. Read about jaeger. helm/charts.
+ 5. read about jaeger. Blogs
+
+
+- this is what I am developing right now. 
 
 ## Attempts
 
@@ -96,6 +125,8 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - run commands.sh, one at a time, with your "o" and "n" scripts
 
 
+
+# Appendix
 
 ## Possible sticking points.
 
