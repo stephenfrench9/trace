@@ -57,6 +57,10 @@ This plan involves launching two docker images from the jaeger tutorials just on
 
 ## Attempts
 
+##### trace/jaegerHi
+- Launch jaeger-all-in-one container on my local machine
+- hello world stuff from the jaeger website
+
 ##### trace/jkub (following jaeger/jaeger-kubernetes)
 
 - hot-rod.sh uses kubectl to deploy hot-rod in kubernetes. It is unresponsive
@@ -69,6 +73,41 @@ This plan involves launching two docker images from the jaeger tutorials just on
 
 -  nginx-app.yaml was modified. 
 	-  Placed the jaeger-all-in-one image into the deployment, modified the ports of the service, the ports of the deployment, and the env variables of the deployment spec to match the command line arguments for launching this container with docker. The image pull successful and starts, but then throws some sort of error and backs of. 
+
+##### trace/seaTrials (https://blog.thecodeteam.com/2017/10/09/easy-way-hard-way-jaeger-kubernetes-cncf/)
+- put production jaeger into kubernetes
+- Fix up the tiller deployment in kubernetes. 
+- https://github.com/helm/helm
+- commands.sh patches the tiller deployment as well as creating a service account on kubernetes.
+
+##### trace/openTracingLesson (https://github.com/yurishkuro/opentracing-tutorial/tree/master/python)
+- Build shark and tootles. These are dockerized, jaeger enabled flask apps. 
+- deploy python webservers locally. Trace them with jaeger. Specifically openTracingLesson/lesson03/solution/*.py are webservers imbued with jaeger matter.
+- openTracingLesson/lesson03/* is a mess. But this is where I build shark and tootles. Docker images that fun the formatter.py server. They run on 0.0.0.0:5000 which is very different than 127.0.0.1:5000. 
+
+##### trace/upper
+- put jaeger-imbued dockerized flaskservers up in the cloud
+- run commands.sh, and you are done
+- formatter.yaml is a deployment with the formatter server at 0.0.0.0:5000
+- formatter.yaml was derived from a yaml called nginx.yaml, which is from managing-resources tutorial. nginx.yaml is just a service backed by an nginx-pod. except now it is backed by my image. The shark image.
+
+##### trace/operator [https://github.com/jaegertracing/jaeger-operator]
+- put jaeger up in the cloud
+- run commands.sh, one at a time, with your "o" and "n" scripts
+
+
+
+## Possible sticking points.
+
+I have never worked with jaeger and I don't know how to plug it into an app. I have no idea how jaeger works. 
+pppp
+I don't know much about computer networks, I will need to write webservers which can send a request to another webserver on the kubernetes network. I think I can write a service which will forward requests published on one of its ports to another service, so that in my source code I can write something like:
+
+	http.sendrequest(r1, 80)
+	
+And it will arrive where it needs to be.
+
+## proposed directories
 
 ##### trace/hotrod (jaeger/examples/hotrod)
 
@@ -86,32 +125,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - Not done in kubernetes
 - Can't see the start of the command line in the video.
 - runs hot rod as well as the standard jaeger.
-- same as trace/medium
-
-##### trace/seaTrials (https://blog.thecodeteam.com/2017/10/09/easy-way-hard-way-jaeger-kubernetes-cncf/)
-- put production jaeger into kubernetes
-- Fix up the tiller deployment in kubernetes. 
-- https://github.com/helm/helm
-- commands.sh patches the tiller deployment as well as creating a service account on kubernetes.
-
-##### trace/openTracingLesson (https://github.com/yurishkuro/opentracing-tutorial/tree/master/python)
-- deploy python webservers locally. Trace them with jaeger. Specifically openTracingLesson/lesson03/solution/*.py are webservers imbued with jaeger matter.
-- openTracingLesson/lesson03/* is a mess. But this is where I build shark and tootles. Docker images that fun the formatter.py server. They run on 0.0.0.0:5000 which is very different than 127.0.0.1:5000. 
-
-##### trace/upper
-- put servers up in the cloud
-- formatter.yaml is a deployment with the formatter server at 0.0.0.0:5000
-- nginx-yaml is from managing-resources. Its just a service backed by an nginx-pod. except now it is backed by my image. The shark image.
-
-## Possible sticking points.
-
-I have never worked with jaeger and I don't know how to plug it into an app. I have no idea how jaeger works. 
-pppp
-I don't know much about computer networks, I will need to write webservers which can send a request to another webserver on the kubernetes network. I think I can write a service which will forward requests published on one of its ports to another service, so that in my source code I can write something like:
-
-	http.sendrequest(r1, 80)
-	
-And it will arrive where it needs to be.	 
+- same as trace/medium	 
 
 
 
