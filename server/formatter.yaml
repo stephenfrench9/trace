@@ -38,6 +38,8 @@ metadata:
   name: my-app
   labels:
     app: ape
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
 spec:
   replicas: 1
   selector:
@@ -51,11 +53,6 @@ spec:
       containers:
       - name: ape
         image: stephenfrench9/shark:1.0
-        env:
-        - name: JAEGER_AGENT_HOST
-          valueFrom:
-            fieldRef:
-              fieldPath: status.hostIP
         ports:
         - containerPort: 5000
         - containerPort: 8000
