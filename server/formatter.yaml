@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: app
   labels:
-    app: nginx
+    app: ape
 spec:
   type: LoadBalancer
   ports:
   - port: 5000
   selector:
-    app: nginx
+    app: ape
 ---
 apiVersion: v1
 kind: Service
@@ -30,7 +30,7 @@ spec:
       targetPort: 8083
       name: three
   selector:
-    app: nginx
+    app: ape
 ---
 apiVersion: apps/v1
 kind: Deployment
