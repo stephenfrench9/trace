@@ -114,7 +114,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - deploy python webservers locally. Trace them with jaeger. Specifically openTracingLesson/lesson03/solution/*.py are webservers imbued with jaeger matter.
 - openTracingLesson/lesson03/* is a mess. But this is where I build shark and tootles. Docker images that fun the formatter.py server. They run on 0.0.0.0:5000 which is very different than 127.0.0.1:5000. 
 
-##### trace/upper
+##### trace/server
 - put jaeger-imbued dockerized flaskservers up in the cloud
 - run commands.sh, and you are done
 - formatter.yaml is a deployment with the formatter server at 0.0.0.0:5000
