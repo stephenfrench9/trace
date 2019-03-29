@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx-svc
+  name: app
   labels:
     app: nginx
 spec:
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: app-trace
 spec:
   ports:
     - port: 8000
@@ -35,28 +35,30 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx
+  name: my-app
   labels:
-    app: nginx
+    app: ape
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: ape
   template:
     metadata:
       labels:
-        app: nginx
+        app: ape
     spec:
       containers:
-      - name: nginx
+      - name: ape
         image: stephenfrench9/shark:1.0
         env:
         - name: JAEGER_AGENT_HOST
-          value: "jaeger"
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         ports:
         - containerPort: 5000
         - containerPort: 8000
-	    - containerPort: 8001
-	    - containerPort: 8002
-	    - containerPort: 8083
+        - containerPort: 8001
+        - containerPort: 8002
+        - containerPort: 8003
