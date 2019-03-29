@@ -11,27 +11,6 @@ spec:
   selector:
     app: nginx
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx
-spec:
-  ports:
-    - port: 8000
-      targetPort: 8000
-      name: zero
-    - port: 8081
-      targetPort: 8081
-      name: one
-    - port: 8082
-      targetPort: 8082
-      name: two
-    - port: 8083
-      targetPort: 8083
-      name: three
-  selector:
-    app: nginx
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,12 +30,5 @@ spec:
       containers:
       - name: nginx
         image: stephenfrench9/shark:1.0
-        env:
-        - name: JAEGER_AGENT_HOST
-          value: "jaeger"
         ports:
         - containerPort: 5000
-        - containerPort: 8000
-	    - containerPort: 8001
-	    - containerPort: 8002
-	    - containerPort: 8083
