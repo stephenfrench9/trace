@@ -120,7 +120,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - formatter.yaml is a deployment with the formatter server at 0.0.0.0:5000
 - formatter.yaml was derived from a yaml called nginx.yaml, which is from managing-resources tutorial. nginx.yaml is just a service backed by an nginx-pod. except now it is backed by my image. The shark image.
 
-##### trace/operator [https://github.com/jaegertracing/jaeger-operator]
+##### trace/jaeger [https://github.com/jaegertracing/jaeger-operator]
 - put jaeger up in the cloud
 - run commands.sh, one at a time, with your "o" and "n" scripts
 
