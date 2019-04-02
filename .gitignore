@@ -1,5 +1,7 @@
 *greenfield*
 *line.txt
 *.idea*
-sweat/env*
+awsenv/
+sweat/0/env*
+sweat/1/env*
 opentracing-tutorial

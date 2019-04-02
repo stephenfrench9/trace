@@ -11,10 +11,11 @@ tracer = init_tracer('formatter')
 def format():
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
-    with tracer.start_active_span('format', child_of=span_ctx, tags=span_tags):
+    with tracer.start_active_span('format', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
+        scope.span.log_kv({'event': 'one-server', 'value': 'line 16'})
         return 'Hello, %s!' % hello_to
 
 if __name__ == "__main__":
+    # app.run(port=8081)
     app.run(debug=True, host='0.0.0.0')
-

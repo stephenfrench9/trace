@@ -124,6 +124,10 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - put jaeger up in the cloud
 - run commands.sh, one at a time, with your "o" and "n" scripts
 
+##### trace/sweat
+- build a docker image
+- python webserver, exact copy of tutorial webserver.
+- 
 
 
 # Appendix
