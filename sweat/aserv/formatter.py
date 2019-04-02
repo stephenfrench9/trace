@@ -28,7 +28,7 @@ def format():
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('format', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
-        hello_to = int(hello_to)
+
         print("type: " + str(type(hello_to)))
         print("value: ")
         print(hello_to)

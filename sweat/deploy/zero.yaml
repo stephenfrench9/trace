@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: ape
-        image: stephenfrench9/zero:8.1
+        image: stephenfrench9/yserv:demo
         ports:
         - containerPort: 5000
         - containerPort: 8000

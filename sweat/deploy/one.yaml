@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: ape-one
-        image: stephenfrench9/one:2.0
+        image: stephenfrench9/zserv:demo
         ports:
         - containerPort: 5000
         - containerPort: 8000
