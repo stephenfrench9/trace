@@ -84,6 +84,20 @@ This plan involves launching two docker images from the jaeger tutorials just on
 
 - this is what I am developing right now. 
 
+## Checkpoint Wednesday April 3 2019
+- Summary: I can deploy chained microservices to the cloud as independent services and trace them with jaeger. Next step: make deployment and modification of microservices easier (they should all have their own github repo).
+- I can have services in kubernetes talk to each other. When you have a kubernetes service, then http://\<service-name\> is a valid ip address that other services or servers can query. I hard bake the service name into the code base for the server that will use that service. So I need to coordinate service names between server code bases and the .yamls which actually create a service. 
+- I can create docker images, tag them, and put them in dockerhub. Then I can create deployments which use these docker images. Jaeger traces them.
+- I really had a hard time discovering how to connect services in kubernetes. I was trying to write conf files following ktask/connect-a-front-end-to , but that conf file was actually nginx specific. I was trying things and everything I tried was taking a while. I was following a tutorial that I shouldn't have been following.
+
+whish list:
+
+1. jenkins deployed microservices, jenkins updated microservices 
+2. large chain of microservices
+3. flask fronted to call the chain (can add last)
+4. jaeger automatically sends email. Jaeger email notification.
+
+
 ## Attempts
 
 ##### trace/jaegerHi
@@ -127,8 +141,12 @@ This plan involves launching two docker images from the jaeger tutorials just on
 ##### trace/sweat
 - build a docker image
 - python webserver, exact copy of tutorial webserver.
-- 
+- deploy webserver with trace/sweat/deploy/commands.sh and adjacent .yaml files
 
+#### trace/jenkinsServer
+- you guessed it
+
+##### trace/jenkins-sand
 
 # Appendix
 
