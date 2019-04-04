@@ -33,7 +33,7 @@ def format():
         print("value: ")
         print(hello_to)
 
-        hello_to = 'Hello, %s!' % hello_to
+        hello_to = 'Hello modified, %s!' % hello_to
         hello_str = 'initialized'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
