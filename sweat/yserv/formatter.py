@@ -5,6 +5,8 @@ from lib.tracing import init_tracer
 from opentracing.ext import tags
 from opentracing.propagation import Format
 
+import time
+
 app = Flask(__name__)
 tracer = init_tracer('formatter') 
 
@@ -30,6 +32,7 @@ def format():
         hello_to = request.args.get('helloTo')
         hello_to = 'Hello, %s!' % hello_to
         hello_str = 'initialized'
+        time.sleep(.5)
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
             scope.span.log_kv({'event': 'zero-server', 'value': 'line 35'})
