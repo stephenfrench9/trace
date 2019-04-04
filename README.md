@@ -143,10 +143,17 @@ whish list:
 - python webserver, exact copy of tutorial webserver.
 - deploy webserver with trace/sweat/deploy/commands.sh and adjacent .yaml files
 
-#### trace/jenkinsServer
-- you guessed it
+##### trace/jenkinsServer
+- put jenkins server in the cloud
+- jenkinsServer/kubernetes-operator must be executed first.
+- then execute jenkinsServer
 
-##### trace/jenkins-sand
+##### trace/localJenk
+- throw up a local jenkins server
+
+##### rtrace/jenkins-sand
+- This has a github account attached to it. 
+- trying to clone this repo onto the cluster (the github account associated with it)
 
 # Appendix
 

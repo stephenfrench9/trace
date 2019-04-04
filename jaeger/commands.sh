@@ -11,4 +11,4 @@ kubectl get ingress
 # look at services
 kubectl get services
 # make that service public
-# kubectl edit service
+kubectl edit service simplest-query
