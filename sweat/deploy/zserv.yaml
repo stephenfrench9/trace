@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: app-zserv
   labels:
-    app: ape
+    app: zserv
 spec:
   type: LoadBalancer
   ports:
   - port: 5000
   selector:
-    app: ape
+    app: zserv
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-trace
+  name: trace-zserv
 spec:
   ports:
     - port: 8000
@@ -30,29 +30,29 @@ spec:
       targetPort: 8083
       name: three
   selector:
-    app: ape
+    app: zserv
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
+  name: zserv
   labels:
-    app: ape
+    app: zserv
   annotations:
     "sidecar.jaegertracing.io/inject": "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ape
+      app: zserv
   template:
     metadata:
       labels:
-        app: ape
+        app: zserv
     spec:
       containers:
-      - name: ape
-        image: stephenfrench9/yserv:demo
+      - name: zserv
+        image: stephenfrench9/zserv:prod
         ports:
         - containerPort: 5000
         - containerPort: 8000

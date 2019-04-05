@@ -8,10 +8,10 @@ from opentracing.propagation import Format
 import time
 
 app = Flask(__name__)
-tracer = init_tracer('formatter') 
+tracer = init_tracer('aserv')
 
 def http_get(port, path, param, value):
-    url = 'http://app:%s/%s' % (port, path)
+    url = 'http://app-yserv:%s/%s' % (port, path)
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
@@ -26,10 +26,11 @@ def http_get(port, path, param, value):
 
 @app.route("/format")
 def format():
+    print("format function in aserv is executing")
     start = time.time()
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
-    with tracer.start_active_span('format', child_of=span_ctx, tags=span_tags) as scope:
+    with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
 
         print("type: " + str(type(hello_to)))

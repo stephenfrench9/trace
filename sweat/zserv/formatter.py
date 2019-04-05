@@ -5,13 +5,13 @@ from opentracing.ext import tags
 from opentracing.propagation import Format
 
 app = Flask(__name__)
-tracer = init_tracer('formatter') 
+tracer = init_tracer('zserv')
  
 @app.route("/format")
 def format():
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
-    with tracer.start_active_span('format', child_of=span_ctx, tags=span_tags) as scope:
+    with tracer.start_active_span('end-chain', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
         scope.span.log_kv({'event': 'one-server', 'value': 'line 16'})
         return 'Hello, %s!' % hello_to
