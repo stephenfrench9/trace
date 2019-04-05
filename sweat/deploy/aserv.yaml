@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: ape-aserv
-        image: stephenfrench9/aserv:demo1
+        image: stephenfrench9/aserv
         ports:
         - containerPort: 5000
         - containerPort: 8000

@@ -5,6 +5,8 @@ from lib.tracing import init_tracer
 from opentracing.ext import tags
 from opentracing.propagation import Format
 
+import time
+
 app = Flask(__name__)
 tracer = init_tracer('formatter') 
 
@@ -24,6 +26,7 @@ def http_get(port, path, param, value):
 
 @app.route("/format")
 def format():
+    start = time.time()
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('format', child_of=span_ctx, tags=span_tags) as scope:
@@ -33,7 +36,7 @@ def format():
         print("value: ")
         print(hello_to)
 
-        hello_to = 'Hello modified, %s!' % hello_to
+        hello_to = 'Hello, %s!' % hello_to
         hello_str = 'initialized'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
@@ -41,6 +44,9 @@ def format():
         except:
             print("The get request failed")
 
+        end = time.time()
+        lapse = end - start
+        hello_str = hello_str + ". time: " + str(lapse) + " ms"
         return hello_str # two submissions to format servers
 
 
