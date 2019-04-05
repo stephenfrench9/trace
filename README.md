@@ -34,7 +34,7 @@ There will be ~95 deployments. 90 will comprise my dummy microservice applicatio
 
 - frontend
 
-## paths forward 1
+### paths forward 1
 
 ### jaeger-all-in-one and Hot-Rod (docker images) on Kubernetes 
 
@@ -71,7 +71,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - do the same thing with Helm.
 
 
-## pathes forward 2
+### pathes forward
 
 ### microservices from scratch, in python. Jaeger backend native to K8s.  
  1. Jaeger loses the app when it goes into the container. Expose more ports on my server container? Get this working locally, and then do the same to the container in the cloud.
@@ -90,13 +90,49 @@ This plan involves launching two docker images from the jaeger tutorials just on
 - I can create docker images, tag them, and put them in dockerhub. Then I can create deployments which use these docker images. Jaeger traces them.
 - I really had a hard time discovering how to connect services in kubernetes. I was trying to write conf files following ktask/connect-a-front-end-to , but that conf file was actually nginx specific. I was trying things and everything I tried was taking a while. I was following a tutorial that I shouldn't have been following.
 
-whish list:
+### pathes forward
 
 1. jenkins deployed microservices, jenkins updated microservices 
 2. large chain of microservices
 3. flask fronted to call the chain (can add last)
 4. jaeger automatically sends email. Jaeger email notification.
 
+## Checkpoint Friday April 3rd
+- Summary: I can modify my microservice application really easily. I can build a new image, push to dockerhub, and then go to kubectl and knock down a service and bring a new one up pretty easily. The workflow is this:
+
+	1. pycharm: edit server code (ie. aserv/formatter.py)
+	2. pycharm: edit yaml, maybe. The tag on the image. (ie. deploy/aserv.yaml)
+	3. Terminal:
+
+			cd sweat/aserv (i.e.)
+			docker build -t whatever .
+			docker tag whatever stephenfrench9/aserv
+			docker push stephenfrench9/aserv
+			cd deploy
+			kubectl delete -f aserv.yaml
+			kubectl apply -f aserv.yaml
+			
+Hopefully, you won't mess with the tag on the image. And hopefully, the name of services will not change, so you can reach them from your server code. 
+
+Jaeger goes up with trace/jaeger. It requires a little specialized knowledge and I manually edit the service yaml so its publicly accessible. 
+
+Of course, hooligan/launch_cluster (not in this repo) puts up the cluster on configures kubernetes/kubectl with a shell scripts. 
+
+I need to answer the question: How can distributed tracing deliver value to an organization or software product.
+
+### Pathes forward 
+
+Its been a while since I wrote any code or added any capabilities to the repo. I have been smoothing over my workflows (though they are still opaque to others). I have also been reading about distributed tracing and attending meetups. An engineer from 'smartsheets' told me about a problem that distributed tracing helps them solve. They often run into a problem when a customer asks for an expensive calculation in one of their 'sheets'. The service performing the calcuation with fail, and smartsheets finds in helpful to know which request caused the service to fail. Distributed tracing allows them to associate the job their service is running (deep in their system) with the user that generated this request, and they can then get ahold of the customer that caused this problem and solve some things. 
+
+Distributed tracing is not just about reducing latency of the application, but identifying which traces are really the problem causers. 
+
+'there are alot of things unique to this particular trace' - the smartsheets engineer. 
+
+This particular service is failing alot - what is causing it? Lets look at all the failing traces that run through the application, and lets ask, is it a particular user that is causing this? Is it a particular upstream service that is causing this problem? 
+
+1. Build an architecture where a service fails, and you need to find which service is failing. Pick some reasonable looking architecture to work with. maybe a couple domains and a couple layers. 
+2. Change it so that traces pick up bugs, and they cause a problem downstream. Analyze with distributed tracing.
+3. Discover this problem with analyzing large flows of traffic. 
 
 ## Attempts
 
