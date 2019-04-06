@@ -26,18 +26,19 @@ def http_get(port, path, param, value):
 
 @app.route("/format")
 def format():
+    print("can't print")
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
-        scope.span.log_kv({'event': 'zero-server', 'value': 'line 32'})
+        scope.span.log_kv({'event': 'yserv-server', 'value': 'line 32'})
         hello_to = request.args.get('helloTo')
         hello_to = 'Hello, %s!' % hello_to
         hello_str = 'yserv initialized'
-        scope.span.log_kv({'event': 'zero-server', 'value': 'line 36'})
+        scope.span.log_kv({'event': 'yserv-server', 'value': 'line 36'})
         try:
-            scope.span.log_kv({'event': 'zero-server', 'value': 'line 35'})
+            scope.span.log_kv({'event': 'yserv-server', 'value': 'line 35'})
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
-            scope.span.log_kv({'event': 'zero-server', 'value': 'line 40'})
+            scope.span.log_kv({'event': 'yserv-server', 'value': 'line 40'})
         except:
             print("The get request failed")
 

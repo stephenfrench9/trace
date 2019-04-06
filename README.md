@@ -191,6 +191,19 @@ This particular service is failing alot - what is causing it? Lets look at all t
 - This has a github account attached to it. 
 - trying to clone this repo onto the cluster (the github account associated with it)
 
+# Debugging services running in kubernetes
+To see the logs for a container
+
+	kubectl logs -f <podname> <containername>
+	
+To see the source code for a running server
+
+	kubectl exec $pod -c ape-aserv -- cat formatter.py
+	
+
+
+# Development environment for containers
+
 # Appendix
 
 ## Possible sticking points.

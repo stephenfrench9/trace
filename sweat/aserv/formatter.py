@@ -6,6 +6,17 @@ from opentracing.ext import tags
 from opentracing.propagation import Format
 
 import time
+import logging
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+
+logger.debug('often makes a very good meal of %s', 'visiting tourists')
 
 app = Flask(__name__)
 tracer = init_tracer('aserv')
@@ -41,7 +52,7 @@ def format():
         hello_str = 'initialized'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
-            scope.span.log_kv({'event': 'a-server', 'value': 'line 35'})
+            scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
         except:
             print("The get request failed")
 
@@ -52,5 +63,6 @@ def format():
 
 
 if __name__ == "__main__":
+    print("Running the flask app for aserv:")
     app.run(debug=True, host='0.0.0.0')
 
