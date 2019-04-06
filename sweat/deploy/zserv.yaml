@@ -53,6 +53,7 @@ spec:
       containers:
       - name: zserv
         image: stephenfrench9/zserv:prod
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         - containerPort: 8000

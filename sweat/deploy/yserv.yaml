@@ -53,6 +53,7 @@ spec:
       containers:
       - name: ape
         image: stephenfrench9/yserv:prod
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         - containerPort: 8000
