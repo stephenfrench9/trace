@@ -97,7 +97,7 @@ This plan involves launching two docker images from the jaeger tutorials just on
 3. flask fronted to call the chain (can add last)
 4. jaeger automatically sends email. Jaeger email notification.
 
-## Checkpoint Friday April 3rd
+## Checkpoint Friday April 5rd
 - Summary: I can modify my microservice application really easily. I can build a new image, push to dockerhub, and then go to kubectl and knock down a service and bring a new one up pretty easily. The workflow is this:
 
 	1. pycharm: edit server code (ie. aserv/formatter.py)
@@ -133,6 +133,25 @@ This particular service is failing alot - what is causing it? Lets look at all t
 1. Build an architecture where a service fails, and you need to find which service is failing. Pick some reasonable looking architecture to work with. maybe a couple domains and a couple layers. 
 2. Change it so that traces pick up bugs, and they cause a problem downstream. Analyze with distributed tracing.
 3. Discover this problem with analyzing large flows of traffic. 
+
+### Frame the work
+
+###### Discovering Bottlenecks in microservice applicaitons
+I have a frontend that 
+
+I have a front end that makes like 20 requests to a more sophisticated archtectue. I do it, analyze statistics. Eventually one service breaks, I go find it. 
+
+
+###### Lightweight logging with jaeger contexts: taking jaeger apart. 
+Can I create a debugging scheme that allows users to view all the logs corresponding to one trace, but not use the full jaeger frontend. Possibly there is some advantage to doing this in a more lightweight fashion. 
+
+###### Sandbox for learning how to use jaeger: ship your first trace.
+
+###### Discovering bottenecks caused by upstream services: a case study of smart sheets
+
+### Frontend
+
+Makes 10000 calls to the microservice, presents averages. I search for the slowest one in jaeger, look at that trace.
 
 ## Attempts
 

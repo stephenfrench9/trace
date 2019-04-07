@@ -28,6 +28,7 @@ def http_get(port, path, param, value):
 def format():
     print("can't print")
     print("its a daist")
+    print("more stuff")
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
