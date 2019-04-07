@@ -31,7 +31,7 @@ def http_get(port, path, param, value):
     headers = {}
     tracer.inject(span, Format.HTTP_HEADERS, headers)
 
-    r = requests.get(url, params={param: value}, headers=headers)
+    r = requests.get(url, params={param: value}, headers=headers, timeout=1)
     assert r.status_code == 200
     return r.text
 

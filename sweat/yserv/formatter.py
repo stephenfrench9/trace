@@ -20,14 +20,14 @@ def http_get(port, path, param, value):
     headers = {}
     tracer.inject(span, Format.HTTP_HEADERS, headers)
 
-    r = requests.get(url, params={param: value}, headers=headers)
+    r = requests.get(url, params={param: value}, headers=headers, timeout=1)
     assert r.status_code == 200
     return r.text
 
 @app.route("/format")
 def format():
     print("can't print")
-    print("its a daist")
+    print("don't want to")
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
