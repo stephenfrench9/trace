@@ -54,7 +54,7 @@ def format():
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
             scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
         except:
-            print("The get request failed")
+            print("aserv: The get request failed")
 
         end = time.time()
         lapse = end - start
