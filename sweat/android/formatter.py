@@ -8,7 +8,7 @@ from opentracing.propagation import Format
 import time
 
 app = Flask(__name__)
-tracer = init_tracer('ios')
+tracer = init_tracer('android')
 
 def http_get(port, path, param, value):
     url = 'http://app-aserv:%s/%s' % (port, path)
@@ -44,11 +44,11 @@ def format():
 
         end = time.time()
         lapse = round(end - start, 4)
-        hello_str = hello_str + ". ios takes: " + str(lapse) + " ms"
+        hello_str = hello_str + ". android takes: " + str(lapse) + " ms"
         return hello_str # two submissions to format servers
 
 
 if __name__ == "__main__":
-    print("Running the flask app for ios:")
+    print("Running the flask app for android:")
     app.run(debug=True, host='0.0.0.0')
 

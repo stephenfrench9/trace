@@ -8,7 +8,7 @@ from opentracing.propagation import Format
 import time
 
 app = Flask(__name__)
-tracer = init_tracer('ios')
+tracer = init_tracer('web')
 
 def http_get(port, path, param, value):
     url = 'http://app-aserv:%s/%s' % (port, path)
@@ -26,7 +26,7 @@ def http_get(port, path, param, value):
 
 @app.route("/format")
 def format():
-    print("format function in aserv is executing")
+    print("format function in web is executing")
     start = time.time()
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
@@ -37,18 +37,18 @@ def format():
         hello_to = 'Hello, %s!' % hello_to
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
-            scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
+            scope.span.log_kv({'event': 'web', 'value': 'line 35'})
         except:
             print("aserv: The get request failed. no further modification to the string")
             hello_str = hello_to
 
         end = time.time()
         lapse = round(end - start, 4)
-        hello_str = hello_str + ". ios takes: " + str(lapse) + " ms"
+        hello_str = hello_str + ". web takes: " + str(lapse) + " ms"
         return hello_str # two submissions to format servers
 
 
 if __name__ == "__main__":
-    print("Running the flask app for ios:")
+    print("Running the flask app for web:")
     app.run(debug=True, host='0.0.0.0')
 
