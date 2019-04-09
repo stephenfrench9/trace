@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 def http_get(port, path, param, value):
-    url = 'http://app-aserv:%s/%s' % (port, path)
+    url = 'http://app-ios:%s/%s' % (port, path)
     # r = requests.get(url, params={param: value}, timeout=1)
     session = requests.Session()
     session.trust_env = False
