@@ -219,7 +219,38 @@ To see the source code for a running server
 
 	kubectl exec $pod -c ape-aserv -- cat formatter.py
 	
+# Debugging and running containers in Docker
 
+https://docs.docker.com/network/bridge/
+
+Make a network
+
+	docker network create my-net
+
+Add a couple containers	
+	
+	docker network connect my-net container1
+	docker metwork connect my-net container2
+	
+See your network
+
+	docker network inspect my-net
+	
+Get the command line of a container
+
+	$ ping <container name>
+	$ ping garbagegarbage
+	
+from inside a flask app, send requests to that container on a certain port.
+
+    session = requests.Session()
+    session.trust_env = False
+    r = session.get(url, params={param: value}, timeout=1)
+
+But this doesn't work
+
+	r = requests.get(url, params={param: value}, timeout=1)
+	
 
 # Development environment for containers
 
