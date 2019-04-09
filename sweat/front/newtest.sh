@@ -1,2 +1,2 @@
-docker build -t stephenfrench9/front:test .
-docker push stephenfrench9/front:test
+docker build -t stephenfrench9/front:prod .
+docker push stephenfrench9/front:prod

@@ -8,10 +8,10 @@ app = Flask(__name__)
 
 def http_get(port, path, param, value):
     url = 'http://app-aserv:%s/%s' % (port, path)
-    # r = requests.get(url, params={param: value}, headers=headers, timeout=1)
+    # r = requests.get(url, params={param: value}, timeout=1)
     session = requests.Session()
     session.trust_env = False
-    r = session.get(url)
+    r = session.get(url, params={param: value}, timeout=1)
     assert r.status_code == 200
     return r.text
 
@@ -22,14 +22,14 @@ def format():
     grand_result = ""
 
     for n in range(20):
-        hello_to = "suzanna"
+        hello_to = "suzanna bierman"
         try:
             print("Before request: " + hello_str)
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
             print("After request: " + hello_str)
         except:
             print("front: The get request failed")
-            hello_str = hello_to + "failed request"
+            hello_str = hello_to + ". failed request"
 
         end = time.time()
         duration = round(end - start, 4)
