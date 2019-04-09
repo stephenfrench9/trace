@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
       - name: ape-aserv
-        image: stephenfrench9/aserv:prod
+        image: stephenfrench9/aserv:test
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

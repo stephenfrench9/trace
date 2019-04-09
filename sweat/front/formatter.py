@@ -16,7 +16,7 @@ def http_get(port, path, param, value):
     return r.text
 
 
-@app.route("/")
+@app.route("/format")
 def format():
     start = time.time()
     grand_result = ""
@@ -29,15 +29,15 @@ def format():
             print("After request: " + hello_str)
         except:
             print("front: The get request failed")
-            hello_str = hello_to
+            hello_str = hello_to + "failed request"
 
         end = time.time()
         duration = round(end - start, 4)
-        hello_str = hello_str + ". front measures: " + str(duration) + " ms"
+        hello_str = hello_str + ". 'front' measures: " + str(duration) + " ms"
         grand_result = grand_result + hello_str + "<br/>"
 
     return grand_result
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=4999)
+    app.run(debug=True, host='0.0.0.0', port=5000)
