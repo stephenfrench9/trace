@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-aserv
+  name: app-ios
   labels:
-    app: ape-aserv
+    app: ape-ios
 spec:
   type: LoadBalancer
   ports:
   - port: 5000
   selector:
-    app: ape-aserv
+    app: ape-ios
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: trace-aserv
+  name: trace-ios
 spec:
   ports:
     - port: 8000
@@ -30,29 +30,29 @@ spec:
       targetPort: 8083
       name: three
   selector:
-    app: ape-aserv
+    app: ape-ios
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aserv
+  name: ios
   labels:
-    app: ape-aserv
+    app: ape-ios
   annotations:
     "sidecar.jaegertracing.io/inject": "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ape-aserv
+      app: ape-ios
   template:
     metadata:
       labels:
-        app: ape-aserv
+        app: ape-ios
     spec:
       containers:
-      - name: ape-aserv
-        image: stephenfrench9/aserv:prod
+      - name: ape-ios
+        image: stephenfrench9/ios:prod
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

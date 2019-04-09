@@ -6,23 +6,12 @@ from opentracing.ext import tags
 from opentracing.propagation import Format
 
 import time
-import logging
-
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter(
-        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
-
-logger.debug('often makes a very good meal of %s', 'visiting tourists')
 
 app = Flask(__name__)
 tracer = init_tracer('aserv')
 
 def http_get(port, path, param, value):
-    url = 'http://app-yserv:%s/%s' % (port, path)
+    url = 'http://app-aserv:%s/%s' % (port, path)
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
@@ -55,11 +44,11 @@ def format():
 
         end = time.time()
         lapse = round(end - start, 4)
-        hello_str = hello_str + ". aserv takes: " + str(lapse) + " ms"
+        hello_str = hello_str + ". ios takes: " + str(lapse) + " ms"
         return hello_str # two submissions to format servers
 
 
 if __name__ == "__main__":
-    print("Running the flask app for aserv:")
+    print("Running the flask app for ios:")
     app.run(debug=True, host='0.0.0.0')
 

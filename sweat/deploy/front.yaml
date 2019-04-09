@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: ape-front
-        image: stephenfrench9/front:test
+        image: stephenfrench9/front:prod
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
