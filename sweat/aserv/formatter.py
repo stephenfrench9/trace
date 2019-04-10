@@ -56,7 +56,7 @@ def format():
 
         end = time.time()
         lapse = round(end - start, 4)
-        hello_str = hello_str + ". aserv takes: " + str(lapse) + " ms"
+        hello_str = hello_str
         return hello_str # two submissions to format servers
 
 

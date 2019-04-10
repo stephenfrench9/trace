@@ -26,7 +26,7 @@ def format():
     except:
         warmup = "(the warmup get failed)"
 
-    for n in range(1):
+    for n in range(10):
         hello_to = "Bierman"
 
         start = time.time()
