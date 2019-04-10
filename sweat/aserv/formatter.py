@@ -21,7 +21,7 @@ logger.debug('often makes a very good meal of %s', 'visiting tourists')
 app = Flask(__name__)
 tracer = init_tracer('aserv')
 
-def http_get(port, path, param, value):
+def http_get(port, path, param, value, bug):
     url = 'http://app-yserv:%s/%s' % (port, path)
 
     span = tracer.active_span
@@ -31,7 +31,7 @@ def http_get(port, path, param, value):
     headers = {}
     tracer.inject(span, Format.HTTP_HEADERS, headers)
 
-    r = requests.get(url, params={param: value}, headers=headers, timeout=1)
+    r = requests.get(url, params={param: value, 'bug': bug}, headers=headers, timeout=1)
     assert r.status_code == 200
     return r.text
 
@@ -43,11 +43,12 @@ def format():
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
+        bug = request.args.get('bug')
+        scope.span.log_kv({'event': 'aserv', 'bug status': str(bug)})
         scope.span.log_kv({'event': 'aserv recieves request', 'helloTo': hello_to})
-
         hello_to = 'Hello, %s!' % hello_to
         try:
-            hello_str = http_get(5000, 'format', 'helloTo', hello_to)
+            hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
         except:
             print("aserv: The get request failed. no further modification to the string")

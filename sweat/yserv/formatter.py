@@ -10,7 +10,7 @@ import time
 app = Flask(__name__)
 tracer = init_tracer('yserv')
 
-def http_get(port, path, param, value):
+def http_get(port, path, param, value, bug):
     url = 'http://app-zserv:%s/%s' % (port, path)
 
     span = tracer.active_span
@@ -20,7 +20,7 @@ def http_get(port, path, param, value):
     headers = {}
     tracer.inject(span, Format.HTTP_HEADERS, headers)
 
-    r = requests.get(url, params={param: value}, headers=headers, timeout=1)
+    r = requests.get(url, params={param: value, 'bug': bug}, headers=headers, timeout=1)
     assert r.status_code == 200
     return r.text
 
@@ -33,12 +33,14 @@ def format():
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         scope.span.log_kv({'event': 'yserv-server', 'value': 'line 32'})
         hello_to = request.args.get('helloTo')
+        bug = request.args.get('bug')
+        scope.span.log_kv({'event': 'yserv', 'bug status': str(bug)})
         hello_to = 'Hello, %s!' % hello_to
         hello_str = 'yserv initialized'
         scope.span.log_kv({'event': 'yserv-server', 'value': 'line 36'})
         try:
             scope.span.log_kv({'event': 'yserv-server', 'value': 'line 35'})
-            hello_str = http_get(5000, 'format', 'helloTo', hello_to)
+            hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'yserv-server', 'value': 'line 40'})
         except:
             print("The get request failed")
