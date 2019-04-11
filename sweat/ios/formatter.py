@@ -30,7 +30,7 @@ def http_get(port, path, param, value, bug):
 @app.route("/format")
 def format():
     global bug
-    if randint(1, 5) == 5:
+    if randint(1, 8) == 5:
         bug = True
 
     start = time.time()
@@ -40,7 +40,7 @@ def format():
         hello_to = request.args.get('helloTo')
         scope.span.log_kv({'event': 'ios recieves request', 'helloTo': hello_to})
 
-        hello_to = 'Hello, %s!' % hello_to
+        hello_to = hello_to + ', ios'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'ios', 'value': 'line 35'})

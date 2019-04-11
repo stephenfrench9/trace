@@ -2,6 +2,7 @@ import time
 import requests
 from flask import Flask
 from flask import request
+from random import randint
 
 app = Flask(__name__)
 
@@ -26,58 +27,75 @@ def format():
     except:
         warmup = "(the warmup get failed)"
 
-    for n in range(10):
-        hello_to = "Bierman"
+    for n in range(40):
 
-        start = time.time()
-        try:
-            android_url = 'http://app-android:%s/%s'
-            android_response = http_get(android_url, 5000, 'format', 'helloTo', hello_to)
-        except:
-            android_response = hello_to + ". failed request"
-        end = time.time()
-        duration = round(end - start, 4)
-        android_response = android_response + ". 'front' measures: " + str(duration) + " ms"
+        q = randint(1, 4)
 
-        start = time.time()
-        try:
+        if q == 1:
+            hello_to = "Jeff"
             start = time.time()
-            web_url = 'http://app-web:%s/%s'
-            web_response = http_get(web_url, 5000, 'format', 'helloTo', hello_to)
-        except:
-            web_response = hello_to + ". failed request"
-        end = time.time()
-        duration = round(end - start, 4)
-        web_response = web_response + ". 'front' measures: " + str(duration) + " ms"
+            try:
+                android_url = 'http://app-android:%s/%s'
+                android_response = http_get(android_url, 5000, 'format', 'helloTo', hello_to)
+            except:
+                android_response = hello_to + ". failed request, sent by front"
+            end = time.time()
+            duration = round(end - start, 2)*100
+            # android_response = android_response + "user measures: " + str(duration) + " ms" # Keep response
+            response = "user measures: " + str(duration) + " ms" # Discard microservice results
 
-        start = time.time()
-        try:
+        elif q == 2:
+            hello_to = "Eric"
             start = time.time()
-            api_url = 'http://app-api:%s/%s'
-            api_response = http_get(api_url, 5000, 'format', 'helloTo', hello_to)
-        except:
-            api_response = hello_to + ". failed request"
-        end = time.time()
-        duration = round(end - start, 4)
-        api_response = api_response + ". 'front' measures: " + str(duration) + " ms"
+            try:
+                start = time.time()
+                web_url = 'http://app-web:%s/%s'
+                web_response = http_get(web_url, 5000, 'format', 'helloTo', hello_to)
+            except:
+                web_response = hello_to + ". failed request"
+            end = time.time()
+            duration = round(end - start, 2)*100
+            # web_response = web_response + "user measures: " + str(duration) + " ms" # Keep response
+            response = "user measures: " + str(duration) + " ms" # Discard service response
 
-        start = time.time()
-        try:
-            ios_url = 'http://app-ios:%s/%s'
-            ios_response = http_get(ios_url, 5000, 'format', 'helloTo', hello_to)
-        except:
-            ios_response = hello_to + ". failed request"
-        end = time.time()
-        duration = round(end - start, 4)
-        ios_response = ios_response + ". 'front' measures: " + str(duration) + " ms"
+        elif q == 3:
+            hello_to = "Chris"
+            start = time.time()
+            try:
+                start = time.time()
+                api_url = 'http://app-api:%s/%s'
+                api_response = http_get(api_url, 5000, 'format', 'helloTo', hello_to)
+            except:
+                api_response = hello_to + ". failed request"
+            end = time.time()
+            duration = round(end - start, 2)*100
+            # api_response = api_response + "user measures: " + str(duration) + " ms" # Keep response
+            response = "user measures: " + str(duration) + " ms" # Discard service response
 
-        grand_result = grand_result + \
-                       android_response + "<br/>" + \
-                       web_response + "<br/>" + \
-                       api_response + "<br/>" + \
-                       ios_response + "<br/>"
+        else:
+            hello_to = "Ben"
+            start = time.time()
+            try:
+                ios_url = 'http://app-ios:%s/%s'
+                ios_response = http_get(ios_url, 5000, 'format', 'helloTo', hello_to)
+            except:
+                ios_response = hello_to + ". failed request"
+            end = time.time()
+            duration = round(end - start, 2)*100
+            # ios_response = ios_response + ". 'front' measures: " + str(duration) + " ms" # Keep response
+            response = "user measures: " + str(duration) + " ms" # Discard service response
 
-    return warmup + "<br/>" + grand_result
+        grand_result = grand_result + response + "<br/>"
+
+        # grand_result = grand_result + \
+        #                android_response + "<br/>" + \
+        #                web_response + "<br/>" + \
+        #                api_response + "<br/>" + \
+        #                ios_response + "<br/>"
+
+    grand_result = '<font size="22">' + grand_result + '</font>'
+
+    return grand_result
 
 
 if __name__ == "__main__":

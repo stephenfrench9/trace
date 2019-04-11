@@ -1,0 +1,16 @@
+sh ios/new.sh
+sh ios/replace.sh
+sh android/new.sh
+sh android/replace.sh
+sh web/new.sh
+sh web/replace.sh
+sh api/new.sh
+sh api/replace.sh
+sh aserv/new.sh
+sh aserv/replace.sh
+sh yserv/new.sh
+sh yserv/replace.sh
+sh zserv/new.sh
+sh zserv/replace.sh
+sh front/new.sh
+sh front/replace.sh

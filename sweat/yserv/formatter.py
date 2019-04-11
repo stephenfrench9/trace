@@ -5,10 +5,13 @@ from lib.tracing import init_tracer
 from opentracing.ext import tags
 from opentracing.propagation import Format
 
-import time
+
+from time import sleep
+
+
 
 app = Flask(__name__)
-tracer = init_tracer('yserv')
+tracer = init_tracer('model')
 
 def http_get(port, path, param, value, bug):
     url = 'http://app-zserv:%s/%s' % (port, path)
@@ -26,24 +29,38 @@ def http_get(port, path, param, value, bug):
 
 @app.route("/format")
 def format():
-    print("can't print")
-    print("don't want to")
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         scope.span.log_kv({'event': 'yserv-server', 'value': 'line 32'})
         hello_to = request.args.get('helloTo')
         bug = request.args.get('bug')
+    # fool
+        scope.span.log_kv({'event': 'yserv-got bug', 'value': bug})
+        scope.span.log_kv({'event': 'yserv-got bug', 'value': str(type(bug))})
+        if bug == "True":
+            bug = True
+        elif bug == "False":
+            bug = False
+        scope.span.log_kv({'event': 'processed bug', 'taIp': str(type(bug))})
+        scope.span.log_kv({'event': 'processed bug', 'value': str(type(bug))})
+
+        if bug:
+            scope.span.log_kv({'event': 'bug going', 'value': str(bug)})
+            sleep(.05)
+
+
+
+    # fool
         scope.span.log_kv({'event': 'yserv', 'bug status': str(bug)})
-        hello_to = 'Hello, %s!' % hello_to
-        hello_str = 'yserv initialized'
+        hello_to = hello_to + ', model'
         scope.span.log_kv({'event': 'yserv-server', 'value': 'line 36'})
         try:
             scope.span.log_kv({'event': 'yserv-server', 'value': 'line 35'})
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'yserv-server', 'value': 'line 40'})
         except:
-            print("The get request failed")
+            hello_str = hello_to
 
         return hello_str # two submissions to format servers
 

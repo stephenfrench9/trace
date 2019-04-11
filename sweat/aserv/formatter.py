@@ -19,7 +19,7 @@ logger.setLevel(logging.DEBUG)
 logger.debug('often makes a very good meal of %s', 'visiting tourists')
 
 app = Flask(__name__)
-tracer = init_tracer('aserv')
+tracer = init_tracer('product_search')
 
 def http_get(port, path, param, value, bug):
     url = 'http://app-yserv:%s/%s' % (port, path)
@@ -46,16 +46,14 @@ def format():
         bug = request.args.get('bug')
         scope.span.log_kv({'event': 'aserv', 'bug status': str(bug)})
         scope.span.log_kv({'event': 'aserv recieves request', 'helloTo': hello_to})
-        hello_to = 'Hello, %s!' % hello_to
+        hello_to = hello_to + ', product search'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
         except:
-            print("aserv: The get request failed. no further modification to the string")
             hello_str = hello_to
 
         end = time.time()
-        lapse = round(end - start, 4)
         hello_str = hello_str
         return hello_str # two submissions to format servers
 

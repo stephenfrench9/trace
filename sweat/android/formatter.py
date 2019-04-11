@@ -32,9 +32,11 @@ def format():
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
-        scope.span.log_kv({'event': 'aserv recieves request', 'helloTo': hello_to})
+        scope.span.log_kv({'event': 'android recieves request', 'helloTo': hello_to})
 
-        hello_to = 'Hello, %s!' % hello_to
+        hello_to = '{}, {}'.format(hello_to, 'android')
+        scope.span.log_kv({'event': 'android process string', 'hello_to': hello_to})
+
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
             scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
@@ -46,7 +48,7 @@ def format():
         lapse = round(end - start, 4)
         hello_str = hello_str
         return hello_str # two submissions to format servers
-
+        # return hello_to
 
 if __name__ == "__main__":
     print("Running the flask app for android:")

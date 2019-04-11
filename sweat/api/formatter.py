@@ -33,7 +33,7 @@ def format():
         hello_to = request.args.get('helloTo')
         scope.span.log_kv({'event': 'api recieves request', 'helloTo': hello_to})
 
-        hello_to = 'Hello, %s!' % hello_to
+        hello_to = hello_to + ', api'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to)
             scope.span.log_kv({'event': 'aserv', 'value': 'line 35'})
