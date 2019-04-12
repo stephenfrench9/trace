@@ -32,7 +32,6 @@ def format():
         bug = request.args.get('bug')
         scope.span.log_kv({'event': 'search recieves request', 'bug status': str(bug)})
         scope.span.log_kv({'event': 'search recieves request', 'helloTo': hello_to})
-        hello_to = hello_to + ', product search'
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'search get request successful'})
