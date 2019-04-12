@@ -6,7 +6,7 @@ sh search/new.sh
 sh search/replace.sh
 sh yserv/new.sh
 sh yserv/replace.sh
-sh zserv/new.sh
-sh zserv/replace.sh
+sh db/new.sh
+sh db/replace.sh
 sh front/new.sh
 sh front/replace.sh
