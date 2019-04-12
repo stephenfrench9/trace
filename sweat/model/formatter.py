@@ -33,25 +33,11 @@ def format():
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         scope.span.log_kv({'event': 'model-server', 'value': 'line 32'})
         hello_to = request.args.get('helloTo')
+        hello_to = hello_to + ', model'
         bug = request.args.get('bug')
-        # fool
         scope.span.log_kv({'event': 'model-got bug', 'value': bug})
         scope.span.log_kv({'event': 'model-got bug', 'value': str(type(bug))})
-        if bug == "True":
-            bug = True
-        elif bug == "False":
-            bug = False
-        scope.span.log_kv({'event': 'processed bug', 'taIp': str(type(bug))})
-        scope.span.log_kv({'event': 'processed bug', 'value': str(type(bug))})
 
-        if bug:
-            scope.span.log_kv({'event': 'bug going', 'value': str(bug)})
-            sleep(.05)
-
-        # fool
-        scope.span.log_kv({'event': 'model', 'bug status': str(bug)})
-        hello_to = hello_to + ', model'
-        scope.span.log_kv({'event': 'model-server', 'value': 'line 36'})
         try:
             scope.span.log_kv({'event': 'model-server', 'value': 'trying get'})
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)

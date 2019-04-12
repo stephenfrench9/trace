@@ -10,8 +10,9 @@ import time
 app = Flask(__name__)
 tracer = init_tracer('android')
 
+
 def http_get(port, path, param, value):
-    url = 'http://app-aserv:%s/%s' % (port, path)
+    url = 'http://app-model:%s/%s' % (port, path)
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
@@ -23,6 +24,7 @@ def http_get(port, path, param, value):
     r = requests.get(url, params={param: value}, headers=headers, timeout=1)
     assert r.status_code == 200
     return r.text
+
 
 @app.route("/format")
 def format():
@@ -44,13 +46,10 @@ def format():
             print("aserv: The get request failed. no further modification to the string")
             hello_str = hello_to
 
-        end = time.time()
-        lapse = round(end - start, 4)
-        hello_str = hello_str
-        return hello_str # two submissions to format servers
+        return hello_str  # two submissions to format servers
         # return hello_to
+
 
 if __name__ == "__main__":
     print("Running the flask app for android:")
     app.run(debug=True, host='0.0.0.0')
-
