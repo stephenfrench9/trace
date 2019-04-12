@@ -1,3 +1,3 @@
-export pod=$(kubectl get pods | grep database | awk '{print $1}')
+export pod=$(kubectl get pods | grep db | awk '{print $1}')
 echo $pod
 kubectl delete pod $pod

@@ -28,6 +28,7 @@ def format():
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
+        hello_to = hello_to + ', search'
         bug = request.args.get('bug')
         scope.span.log_kv({'event': 'search recieves request', 'bug status': str(bug)})
         scope.span.log_kv({'event': 'search recieves request', 'helloTo': hello_to})

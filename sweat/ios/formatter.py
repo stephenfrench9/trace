@@ -13,7 +13,7 @@ tracer = init_tracer('ios')
 
 
 def http_get(port, path, param, value, bug):
-    url = 'http://app-aserv:%s/%s' % (port, path)
+    url = 'http://app-search:%s/%s' % (port, path)
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
@@ -33,7 +33,6 @@ def format():
     if randint(1, 8) == 5:
         bug = True
 
-    start = time.time()
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
@@ -48,9 +47,7 @@ def format():
             print("ios: The get request failed. no further modification to the string")
             hello_str = hello_to
 
-        end = time.time()
-        lapse = round(end - start, 4)
-        hello_str = hello_str
+
         return hello_str  # two submissions to format servers
 
 
