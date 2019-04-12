@@ -13,7 +13,10 @@ tracer = init_tracer('ios')
 
 
 def http_get(port, path, param, value, bug):
-    url = 'http://app-search:%s/%s' % (port, path)
+    url = 'http://app-model:%s/%s' % (port, path)
+    if randint(1, 2) == 2:
+        url = 'http://app-search:%s/%s' % (port, path)
+
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
