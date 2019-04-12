@@ -12,11 +12,10 @@ app = Flask(__name__)
 tracer = init_tracer('ios')
 
 
-def http_get(port, path, param, value, bug):
+def http_get(port, path, param, value):
     url = 'http://app-model:%s/%s' % (port, path)
     if randint(1, 2) == 2:
         url = 'http://app-search:%s/%s' % (port, path)
-
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
@@ -25,17 +24,13 @@ def http_get(port, path, param, value, bug):
     headers = {}
     tracer.inject(span, Format.HTTP_HEADERS, headers)
 
-    r = requests.get(url, params={param: value, 'bug': bug}, headers=headers, timeout=1)
+    r = requests.get(url, params={param: value}, headers=headers, timeout=1)
     assert r.status_code == 200
     return r.text
 
 
 @app.route("/format")
 def format():
-    global bug
-    if randint(1, 8) == 5:
-        bug = True
-
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
@@ -44,19 +39,13 @@ def format():
 
         hello_to = hello_to + ',ios'
         try:
-            hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
+            hello_str = http_get(5000, 'format', 'helloTo', hello_to)
             scope.span.log_kv({'event': 'ios', 'value': 'line 35'})
         except:
             print("ios: The get request failed. no further modification to the string")
             hello_str = hello_to
 
-
         return hello_str  # two submissions to format servers
-
-
-@app.route("/check")
-def check():
-    return str(bug)
 
 
 if __name__ == "__main__":

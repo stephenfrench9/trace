@@ -1,12 +1,16 @@
 import requests
+
+
 from flask import Flask
 from flask import request
 from lib.tracing import init_tracer
 from opentracing.ext import tags
 from opentracing.propagation import Format
+from random import randint
 
 app = Flask(__name__)
 tracer = init_tracer('search')
+bug = False
 
 def http_get(port, path, param, value, bug):
     url = 'http://app-db:%s/%s' % (port, path)
@@ -24,14 +28,14 @@ def http_get(port, path, param, value, bug):
 
 @app.route("/format")
 def format():
+    global bug
     span_ctx = tracer.extract(Format.HTTP_HEADERS, request.headers)
     span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         hello_to = request.args.get('helloTo')
         hello_to = hello_to + ',search'
-        bug = request.args.get('bug')
-        scope.span.log_kv({'event': 'search recieves request', 'bug status': str(bug)})
-        scope.span.log_kv({'event': 'search recieves request', 'helloTo': hello_to})
+        if randint(1,20) == 4:
+            bug = False
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'search get request successful'})

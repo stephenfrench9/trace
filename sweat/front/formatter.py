@@ -41,7 +41,7 @@ def format():
                 android_response = hello_to + ",failed request"
             android_response = android_response.split(",")
             end = time.time()
-            duration = round(end - start, 2)*100
+            duration = round(end - start, 3)*1000
             response = android_response[1] + " : " + str(duration) + " ms" # Keep response
             # response = "user measures: " + str(duration) + " ms" # Discard microservice results
 
@@ -56,7 +56,7 @@ def format():
                 web_response = hello_to + ",failed request"
             web_response = web_response.split(",")
             end = time.time()
-            duration = round(end - start, 2)*100
+            duration = round(end - start, 3)*1000
             response = web_response[1] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + " : " + str(duration) + " ms" # Keep response
 
             # response = "user measures: " + str(duration) + " ms" # Discard service response
