@@ -33,7 +33,7 @@ def format():
     with tracer.start_active_span('request', child_of=span_ctx, tags=span_tags) as scope:
         scope.span.log_kv({'event': 'model-server', 'value': 'line 32'})
         hello_to = request.args.get('helloTo')
-        hello_to = hello_to + ', model'
+        hello_to = hello_to + ',model'
         bug = request.args.get('bug')
         scope.span.log_kv({'event': 'model-got bug', 'value': bug})
         scope.span.log_kv({'event': 'model-got bug', 'value': str(type(bug))})

@@ -28,7 +28,7 @@ def format():
         # else:
         #     scope.span.log_kv({'event': 'zserv-bug false', 'bug status': str(bug)})
 
-        return hello_to + ', db'
+        return hello_to + ',db'
 
 
 if __name__ == "__main__":

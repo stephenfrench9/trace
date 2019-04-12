@@ -38,10 +38,11 @@ def format():
                 android_url = 'http://app-android:%s/%s'
                 android_response = http_get(android_url, 5000, 'format', 'helloTo', hello_to)
             except:
-                android_response = hello_to + ". failed request, sent by front"
+                android_response = hello_to + ",failed request"
+            android_response = android_response.split(",")
             end = time.time()
             duration = round(end - start, 2)*100
-            response = android_response + "user measures: " + str(duration) + " ms" # Keep response
+            response = android_response[1] + " : " + str(duration) + " ms" # Keep response
             # response = "user measures: " + str(duration) + " ms" # Discard microservice results
 
         elif q == 2:
@@ -52,10 +53,12 @@ def format():
                 web_url = 'http://app-ios:%s/%s'
                 web_response = http_get(web_url, 5000, 'format', 'helloTo', hello_to)
             except:
-                web_response = hello_to + ". failed request"
+                web_response = hello_to + ",failed request"
+            web_response = web_response.split(",")
             end = time.time()
             duration = round(end - start, 2)*100
-            response = web_response + "user measures: " + str(duration) + " ms" # Keep response
+            response = web_response[1] + " : " + str(duration) + " ms" # Keep response
+
             # response = "user measures: " + str(duration) + " ms" # Discard service response
 
         grand_result = grand_result + response + "<br/>"

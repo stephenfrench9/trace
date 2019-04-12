@@ -39,7 +39,7 @@ def format():
         hello_to = request.args.get('helloTo')
         scope.span.log_kv({'event': 'android recieves request', 'helloTo': hello_to})
 
-        hello_to = '{}, {}'.format(hello_to, 'android')
+        hello_to = '{},{}'.format(hello_to, 'android')
         scope.span.log_kv({'event': 'android process string', 'hello_to': hello_to})
 
         try:
