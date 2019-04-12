@@ -1,10 +1,11 @@
-import requests
 from flask import Flask
 from flask import request
 from lib.tracing import init_tracer
 from opentracing.ext import tags
 from opentracing.propagation import Format
+from random import randint
 
+import requests
 import time
 
 app = Flask(__name__)
@@ -13,6 +14,8 @@ tracer = init_tracer('android')
 
 def http_get(port, path, param, value):
     url = 'http://app-model:%s/%s' % (port, path)
+    if randint(1, 2) == 2:
+        url = 'http://app-search:%s/%s' % (port, path)
 
     span = tracer.active_span
     span.set_tag(tags.HTTP_METHOD, 'GET')
