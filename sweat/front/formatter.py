@@ -57,7 +57,7 @@ def format():
             web_response = web_response.split(",")
             end = time.time()
             duration = round(end - start, 2)*100
-            response = web_response[1] + " : " + str(duration) + " ms" # Keep response
+            response = web_response[1] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + " : " + str(duration) + " ms" # Keep response
 
             # response = "user measures: " + str(duration) + " ms" # Discard service response
 
