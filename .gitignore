@@ -2,8 +2,6 @@
 *line.txt
 *.idea*
 awsenv/
-app/0/env*
-app/1/env*
-app/base/env*
+Gapp/base/env*
 opentracing-tutorial
 jenkins-sand/base/env*

@@ -1,0 +1,3 @@
+[submodule "app/base/env/src/jaeger-client"]
+	path = app/base/env/src/jaeger-client
+	url = https://github.com/yurishkuro/jaeger-client-python.git
