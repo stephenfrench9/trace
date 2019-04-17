@@ -9,6 +9,7 @@
 - old directories and log of attempts
 
 ### awsenv/ 
+- python virtual environment
 
 ### jaeger/
 - launch jaeger into kubernetes
