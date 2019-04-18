@@ -35,7 +35,7 @@ def format():
         hello_to = request.args.get('helloTo')
         hello_to = hello_to + ',search'
         if randint(1,20) == 4:
-            bug = False
+            bug = True
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'search get request successful'})

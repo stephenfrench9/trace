@@ -24,7 +24,7 @@ def format():
         scope.span.log_kv({'event': 'db read bug', 'bug status': str(bug), 'bug taIp': str(type(bug))})
         if bug:
             scope.span.log_kv({'event': 'db-bug true', 'bug status': str(bug)})
-            sleep(.06)
+            sleep(.1)
         else:
             scope.span.log_kv({'event': 'db-bug false', 'bug status': str(bug)})
 
