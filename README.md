@@ -9,11 +9,6 @@ Visit my blog at https://medium.com/debugging-distributed-applications/debugging
 
 ## Directories
 
-### app/
-- contains .yamls for all the services that run on kubernetes as part of this application
-- contains scripts to deploy those .yamls
-- contains source code to generate docker images for those services
-
 ### archive/
 - old directories and log of attempts
 
@@ -28,6 +23,9 @@ Visit my blog at https://medium.com/debugging-distributed-applications/debugging
 
 ### sweat/
 - launch my application
+- contains .yamls for all the services that run on kubernetes as part of this application
+- contains scripts to deploy those .yamls
+- contains source code to generate docker images for those services
 
 ## Instructions to Build and Run 
 
