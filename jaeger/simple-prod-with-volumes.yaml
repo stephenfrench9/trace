@@ -1,0 +1,18 @@
+# setup an elasticsearch with `make es`
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: simple-prod
+spec:
+  strategy: production
+  storage:
+    type: elasticsearch
+    options:
+      es:
+        server-urls: http://elasticsearch:9200
+  volumeMounts:
+  - name: elastic-data
+    mountPath: /usr/share/elasticsearch/data
+  volumes:
+  - name: elastic-data
+    emptyDir: {}

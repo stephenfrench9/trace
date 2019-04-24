@@ -5,7 +5,7 @@ kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operato
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
 # make an instance of jaeger
-kubectl apply -f simplest.yaml
+#kubectl apply -f simple-prod-deploy-es.yaml
 # look at ingress
 kubectl get ingress
 # look at services
