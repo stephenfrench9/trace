@@ -42,15 +42,18 @@ def format():
     for index in es.indices.get('*'):
         app.logger.debug(index)
 
-    app.logger.debug(str(type(es)))
-    app.logger.debug(str(object_methods))
-    app.logger.debug(str(es.info))
-    app.logger.debug(" h ")
-    app.logger.debug(str(es.count))
-    app.logger.debug(r.text)
+    # app.logger.debug(str(type(es)))
+    # app.logger.debug(str(object_methods))
+    # app.logger.debug(str(es.info))
+    # app.logger.debug(" h ")
+    # app.logger.debug(str(es.count))
+    # app.logger.debug(r.text)
 
+    res = es.search(index='jaeger-span-2019-04-25')
+    app.logger.debug(res)
+    app.logger.debug(type(res))
 
-    return str(type(r)) + "somethin great, an expectation"
+    return "somethin great, an expectation"
     # es = Elasticsearch(['http://elasticsearch:%s/%s'])
     #
     # # ... or specify common parameters as kwargs
