@@ -29,13 +29,25 @@ def http_get(port, path, param, value):
 @app.route("/format")
 def format():
     # you can use RFC-1738 to specify the url
-    url = 'http://elasticsearch:9200'
+    url = 'http://elasticsearch:9200/_stats/indexing'
     r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'elasticsearch', 'port': 9200}])
     # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
-    app.logger.debug('%s logged in successfully', 'stive')
+
+    object = es
+
+    object_methods = [method_name for method_name in dir(object)
+                      if callable(getattr(object, method_name))]
+
+
+
+    app.logger.debug(str(type(es)))
+    app.logger.debug(str(object_methods))
+    app.logger.debug(str(es.info))
+    app.logger.debug(" h ")
+    app.logger.debug(str(es.count))
     app.logger.debug(r.text)
-    app.logger.debug(r.status_code)
+
 
     return str(type(r)) + "somethin great, an expectation"
     # es = Elasticsearch(['http://elasticsearch:%s/%s'])
