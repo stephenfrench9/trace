@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bf
+  labels:
+    app: bf
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5000
+  selector:
+    app: bf
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bf
+  labels:
+    app: bf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bf
+  template:
+    metadata:
+      labels:
+        app: bf
+    spec:
+      containers:
+      - name: bf
+        image: stephenfrench9/bf:prod
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+
