@@ -39,7 +39,8 @@ def format():
     object_methods = [method_name for method_name in dir(object)
                       if callable(getattr(object, method_name))]
 
-
+    for index in es.indices.get('*'):
+        app.logger.debug(index)
 
     app.logger.debug(str(type(es)))
     app.logger.debug(str(object_methods))
