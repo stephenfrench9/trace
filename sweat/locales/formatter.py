@@ -46,8 +46,8 @@ def format():
     # url = 'http://elasticsearch:9200/_stats/indexing'
     # r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
-    size = 1000
-    threshold = 23000
+    size = 100
+    threshold = 17000
     # # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
     #
     # object = es
@@ -181,6 +181,34 @@ def format():
     print(fast_counts)
     print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     print(slow_counts)
+
+    # Calculate conditional distributions
+    for key in fast_counts:
+        print(key)
+
+    print("********************")
+
+    for key in slow_counts:
+        print(key)
+
+    print("slow count keys %s" % len(slow_counts))
+    print("fast count keys %s" % len(fast_counts))
+
+    for key in slow_counts.keys():
+        if key in fast_counts.keys():
+            print("its there")
+        else:
+            print("not there")
+
+    cond_dist = {}
+    for slow_args, slow_count in slow_counts.items():
+        if slow_args in list(fast_counts.keys()):
+            cond_dist[slow_args] = slow_count/(slow_count + fast_counts[slow_args])
+        else:
+            cond_dist[slow_args] = slow_count/slow_count
+    print(str(cond_dist))
+
+
 
     return "somethin great, an expectation"
 
