@@ -44,14 +44,6 @@ def format():
     for index in es.indices.get('*'):
         print(index)
     print("\n\n\n\n")
-    #
-    # # app.logger.debug(str(type(es)))
-    # # app.logger.debug(str(object_methods))
-    # # app.logger.debug(str(es.info))
-    # # app.logger.debug(" h ")
-    # # app.logger.debug(str(es.count))
-    # # app.logger.debug(r.text)
-    #
     pp = pprint.PrettyPrinter(indent=0)
     res = es.search(index='jaeger-span-2019-04-26')
 
@@ -89,6 +81,7 @@ def format():
 
     print("***************************Search By Span****************************")
 
+    # build events dictionary
     events = {}
     for i in range(len(traces)):
         search = {"query": {"match": {'traceID': traces[i]}}}
@@ -100,12 +93,14 @@ def format():
             traceID = trace['_source']['traceID']
             spanID = trace['_source']['spanID']
             duration = trace['_source']['duration']
-
             if traceID not in events.keys():
                 events[traceID] = {}
-
             events[traceID][service] = duration
 
+    # total number of events
+    events_num = len(events)
+
+    # identify slow traces
     for trace in events.keys():
         slow = False
         for service in events[trace].keys():
@@ -113,36 +108,22 @@ def format():
                 slow = True
         events[trace]['slow'] = slow
 
+    # see all the trace dictionaries
     for trace in events.keys():
         print(events[trace])
 
-    # app.logger.debug(res)
-    # app.logger.debug(type(res))
-    # pp.pprint(a[0])
+    # trim the events dictionary to only include slow events
+    deletes = []
+    for trace in events.keys():
+        if not events[trace]['slow']:
+            deletes.append(trace)
+    for delete in deletes:
+        del events[delete]
+
+    print(len(events))
+    print(events_num)
+
     return "somethin great, an expectation"
-    # es = Elasticsearch(['http://elasticsearch:%s/%s'])
-    #
-    # # ... or specify common parameters as kwargs
-    #
-    # es = Elasticsearch(
-    #     ['localhost', 'otherhost'],
-    #     http_auth=('user', 'secret'),
-    #     scheme="https",
-    #     port=443,
-    # )
-    #
-    # # SSL client authentication using client_cert and client_key
-    #
-    # from ssl import create_default_context
-    #
-    # context = create_default_context(cafile="path/to/cert.pem")
-    # es = Elasticsearch(
-    #     ['localhost', 'otherhost'],
-    #     http_auth=('user', 'secret'),
-    #     scheme="https",
-    #     port=443,
-    #     ssl_context=context,
-    # )
 
 
 if __name__ == "__main__":
