@@ -12,6 +12,19 @@ import pprint
 app = Flask(__name__)
 
 
+def powerset(seq):
+    """
+    Returns all the subsets of this set. This is a generator.
+    """
+    if len(seq) <= 1:
+        yield seq
+        yield []
+    else:
+        for item in powerset(seq[1:]):
+            yield [seq[0]] + item
+            yield item
+
+
 def http_get(port, path, param, value):
     url = 'http://elasticsearch:%s/%s' % (port, path)
 
@@ -119,6 +132,29 @@ def format():
             deletes.append(trace)
     for delete in deletes:
         del events[delete]
+
+    print()
+
+    # see all the trace dictionaries
+    for trace in events.keys():
+        print(events[trace])
+
+    marginalgenerator = []
+    traces = list(events.keys())
+    for key in events[traces[0]].keys():
+        if key != 'slow':
+            marginalgenerator.append(key)
+
+    # see all the powersets
+    marginalgenerator = powerset(marginalgenerator)
+    print(next(marginalgenerator, 'donee'))
+    print(next(marginalgenerator, 'donee'))
+    print(next(marginalgenerator, 'donee'))
+
+    marginalargs = "whatever"
+    while(marginalargs != "donee"):
+        marginalargs = next(marginalgenerator, 'donee')
+        print(marginalargs)
 
     print(len(events))
     print(events_num)
