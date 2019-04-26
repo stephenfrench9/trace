@@ -40,8 +40,8 @@ def format():
     # object_methods = [method_name for method_name in dir(object)
     #                   if callable(getattr(object, method_name))]
     #
-    # for index in es.indices.get('*'):
-    #     app.logger.debug(index)
+    for index in es.indices.get('*'):
+        print(index)
     #
     # # app.logger.debug(str(type(es)))
     # # app.logger.debug(str(object_methods))
@@ -51,7 +51,7 @@ def format():
     # # app.logger.debug(r.text)
     #
     pp=pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-2019-04-25')
+    res = es.search(index='jaeger-span-2019-04-26')
     print(type(res))
     pp.pprint(res)
     print("list of hits")
@@ -62,8 +62,8 @@ def format():
     print("\nTRACES\n")
     for trace in a:
         print(trace['_source']['process']['serviceName'])
-        print(trace['_source']['spanID'])
-        print(trace['_source']['duration'])
+        print(trace['_source']['traceID'])
+
 
     # app.logger.debug(res)
     # app.logger.debug(type(res))
