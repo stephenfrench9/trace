@@ -47,7 +47,7 @@ def format():
     # r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     size = 100
-    threshold = 17000
+    threshold = 60000
     # # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
     #
     # object = es
@@ -169,7 +169,7 @@ def format():
                 else:
                     slow_counts[",".join(args)] += 1
             elif not events[trace]['slow']:
-                if ",".join(args) not in list(slow_counts.keys()):
+                if ",".join(args) not in list(fast_counts.keys()):
                     fast_counts[",".join(args)] = 1
                 else:
                     fast_counts[",".join(args)] += 1
