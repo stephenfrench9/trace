@@ -139,6 +139,7 @@ def format():
     for trace in events.keys():
         print(events[trace])
 
+    # find all the marginal arguments for ONE trace
     marginalgenerator = []
     traces = list(events.keys())
     for key in events[traces[0]].keys():
@@ -147,17 +148,27 @@ def format():
 
     # see all the powersets
     marginalgenerator = powerset(marginalgenerator)
-    print(next(marginalgenerator, 'donee'))
-    print(next(marginalgenerator, 'donee'))
-    print(next(marginalgenerator, 'donee'))
+    marginals_args = []
+    marginalargset = "whatever"
+    while(marginalargset != "donee"):
+        marginalargset = next(marginalgenerator, 'donee')
+        if marginalargset != [] and marginalargset != 'donee':
+            marginals_args.append(marginalargset)
 
-    marginalargs = "whatever"
-    while(marginalargs != "donee"):
-        marginalargs = next(marginalgenerator, 'donee')
-        print(marginalargs)
-
+    print(marginals_args)
     print(len(events))
     print(events_num)
+
+    # Add all the marginal_args to the distribution
+    dist = {}
+    for args in marginals_args:
+        print(dist.keys())
+        if args not in list(dist.keys()):
+            dist[",".join(args)] = 1
+        else:
+            dist[",".join(args)] += 1
+
+    print(dist)
 
     return "somethin great, an expectation"
 
