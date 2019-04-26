@@ -53,7 +53,7 @@ def format():
     # # app.logger.debug(r.text)
     #
     pp = pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-2019-04-26', size=1000)
+    res = es.search(index='jaeger-span-2019-04-26')
 
     # pp.pprint(res)
     print("***************************Elasticsearch Query****************************")
@@ -77,20 +77,23 @@ def format():
         if spanID not in spans:
             spans.append(spanID)
 
+        if (traceID == spanID):
+            print("these are the same")
+
     print("num services: %d" % len(services))
     print("num traces: %d" % len(traces))
     print("num spans: %d" % len(spans))
 
     print(spans)
+    print(traces)
 
     print("***************************Search By Span****************************")
 
-    results = {}
+    events = {}
     for i in range(len(traces)):
         search = {"query": {"match": {'traceID': traces[i]}}}
-        res = es.search(index='jaeger-span-2019-04-26', body=search, size=1000)
+        res = es.search(index='jaeger-span-2019-04-26', body=search)
         a = res['hits']['hits']  # all the spans to do with this trace
-
 
         for trace in a:
             service = trace['_source']['process']['serviceName']
@@ -98,13 +101,20 @@ def format():
             spanID = trace['_source']['spanID']
             duration = trace['_source']['duration']
 
-            if traceID not in results.keys():
-                results[traceID] = {}
+            if traceID not in events.keys():
+                events[traceID] = {}
 
-            results[traceID][service] = duration
+            events[traceID][service] = duration
 
-    for trace in results.keys():
-        print(results[trace])
+    for trace in events.keys():
+        slow = False
+        for service in events[trace].keys():
+            if events[trace][service] > 17000:
+                slow = True
+        events[trace]['slow'] = slow
+
+    for trace in events.keys():
+        print(events[trace])
 
     # app.logger.debug(res)
     # app.logger.debug(type(res))
