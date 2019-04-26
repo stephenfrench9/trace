@@ -85,35 +85,30 @@ def format():
 
     print("***************************Search By Span****************************")
 
-    search = {"query": {"match": {'traceID': traces[0]}}}
-    res = es.search(index='jaeger-span-2019-04-26', body=search, size=1000)
-
-    a = res['hits']['hits']
-    print("Number of hits: %d" % len(a))
-    pp.pprint(a[0])
-
-    print("***************************Span children****************************")
-
     results = {}
-    for trace in a:
-        service = trace['_source']['process']['serviceName']
-        traceID = trace['_source']['traceID']
-        spanID = trace['_source']['spanID']
-        duration = trace['_source']['duration']
+    for i in range(len(traces)):
+        search = {"query": {"match": {'traceID': traces[i]}}}
+        res = es.search(index='jaeger-span-2019-04-26', body=search, size=1000)
+        a = res['hits']['hits']  # all the spans to do with this trace
 
-        if traceID not in results.keys():
-            results[traceID] = {}
 
-        results[traceID][service] = duration
+        for trace in a:
+            service = trace['_source']['process']['serviceName']
+            traceID = trace['_source']['traceID']
+            spanID = trace['_source']['spanID']
+            duration = trace['_source']['duration']
 
-    print("num traces: %d" % len(results))
+            if traceID not in results.keys():
+                results[traceID] = {}
+
+            results[traceID][service] = duration
 
     for trace in results.keys():
         print(results[trace])
 
     # app.logger.debug(res)
     # app.logger.debug(type(res))
-
+    # pp.pprint(a[0])
     return "somethin great, an expectation"
     # es = Elasticsearch(['http://elasticsearch:%s/%s'])
     #
