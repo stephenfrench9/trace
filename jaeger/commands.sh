@@ -13,5 +13,5 @@ kubectl get ingress
 # look at services
 kubectl get services
 # make that service public
-sleep 3
-kubectl edit service simple-prod-query
+# sleep 3			       
+# kubectl edit service simple-prod-query

@@ -5,7 +5,6 @@ metadata:
   labels:
     app: ape-android
 spec:
-  type: LoadBalancer
   ports:
   - port: 5000
   selector:

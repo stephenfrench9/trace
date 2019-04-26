@@ -5,7 +5,6 @@ metadata:
   labels:
     app: ape-ios
 spec:
-  type: LoadBalancer
   ports:
   - port: 5000
   selector:
