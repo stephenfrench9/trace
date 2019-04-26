@@ -7,6 +7,7 @@ from opentracing.ext import tags
 from opentracing.propagation import Format
 from random import randint
 from elasticsearch import Elasticsearch
+import pprint
 
 app = Flask(__name__)
 
@@ -44,14 +45,18 @@ def format():
     #
     # # app.logger.debug(str(type(es)))
     # # app.logger.debug(str(object_methods))
-    print(es.info)
     # # app.logger.debug(str(es.info))
     # # app.logger.debug(" h ")
     # # app.logger.debug(str(es.count))
     # # app.logger.debug(r.text)
     #
+    pp=pprint.PrettyPrinter(indent=0)
     res = es.search(index='jaeger-span-2019-04-25')
-    print(res)
+    print(type(res))
+    pp.pprint(res)
+    # a=res['hits']['hits'][0]['_source']
+    # print(type(a))
+    # print(a.keys())
     # app.logger.debug(res)
     # app.logger.debug(type(res))
     print("we are done")
