@@ -46,6 +46,8 @@ def format():
     # url = 'http://elasticsearch:9200/_stats/indexing'
     # r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    size = 1000
+    threshold = 10000
     # # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
     #
     # object = es
@@ -58,7 +60,7 @@ def format():
         print(index)
     print("\n\n\n\n")
     pp = pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-2019-04-26')
+    res = es.search(index='jaeger-span-2019-04-26', size = size)
 
     # pp.pprint(res)
     print("***************************Elasticsearch Query****************************")
@@ -98,7 +100,7 @@ def format():
     events = {}
     for i in range(len(traces)):
         search = {"query": {"match": {'traceID': traces[i]}}}
-        res = es.search(index='jaeger-span-2019-04-26', body=search)
+        res = es.search(index='jaeger-span-2019-04-26', body=search, size = size)
         a = res['hits']['hits']  # all the spans to do with this trace
 
         for trace in a:
@@ -117,7 +119,7 @@ def format():
     for trace in events.keys():
         slow = False
         for service in events[trace].keys():
-            if events[trace][service] > 17000:
+            if events[trace][service] > threshold:
                 slow = True
         events[trace]['slow'] = slow
 
@@ -132,6 +134,7 @@ def format():
             deletes.append(trace)
     for delete in deletes:
         del events[delete]
+        traces.remove(delete)
 
     print()
 
@@ -139,36 +142,49 @@ def format():
     for trace in events.keys():
         print(events[trace])
 
-    # find all the marginal arguments for ONE trace
-    marginalgenerator = []
-    traces = list(events.keys())
-    for key in events[traces[0]].keys():
-        if key != 'slow':
-            marginalgenerator.append(key)
+    print("***************************One Trace****************************")
 
-    # see all the powersets
-    marginalgenerator = powerset(marginalgenerator)
-    marginals_args = []
-    marginalargset = "whatever"
-    while(marginalargset != "donee"):
-        marginalargset = next(marginalgenerator, 'donee')
-        if marginalargset != [] and marginalargset != 'donee':
-            marginals_args.append(marginalargset)
-
-    print(marginals_args)
-    print(len(events))
-    print(events_num)
-
-    # Add all the marginal_args to the distribution
     dist = {}
-    for args in marginals_args:
-        print(dist.keys())
-        if args not in list(dist.keys()):
-            dist[",".join(args)] = 1
-        else:
-            dist[",".join(args)] += 1
+    for trace in traces:
+        # find all the marginal arguments for ONE trace
+        traces_in_span = []
+        traces = list(events.keys())
+        for key in events[trace].keys():
+            if key != 'slow':
+                traces_in_span.append(key)
+
+        traces_in_span = sorted(traces_in_span)
+
+        # see all the powersets
+        powersets = powerset(traces_in_span)
+        marginals_args = []
+        marginalargset = "whatever"
+        while(marginalargset != "donee"):
+            marginalargset = next(powersets, 'donee')
+            if marginalargset != [] and marginalargset != 'donee':
+                marginals_args.append(marginalargset)
+
+        # print("HERE ARE THE MARGINAL ARGS")
+        # print(marginals_args)
+        # print(len(events))
+        # print(events_num)
+
+        # Add all the marginal_args to the distribution
+
+        for args in marginals_args:
+            print("processing ", end='')
+            print(args)
+            # print(dist.keys())
+            if ",".join(args) not in list(dist.keys()):
+                dist[",".join(args)] = 1
+                print("new args")
+            else:
+                dist[",".join(args)] += 1
+                print("old args")
+            print()
 
     print(dist)
+    print(len(traces))
 
     return "somethin great, an expectation"
 
