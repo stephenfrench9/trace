@@ -54,12 +54,20 @@ def format():
     res = es.search(index='jaeger-span-2019-04-25')
     print(type(res))
     pp.pprint(res)
-    # a=res['hits']['hits'][0]['_source']
-    # print(type(a))
-    # print(a.keys())
+    print("list of hits")
+    a=res['hits']['hits']
+    print(type(a))
+    print(len(a))
+
+    print("\nTRACES\n")
+    for trace in a:
+        print(trace['_source']['process']['serviceName'])
+        print(trace['_source']['spanID'])
+        print(trace['_source']['duration'])
+
     # app.logger.debug(res)
     # app.logger.debug(type(res))
-    print("we are done")
+
 
     return "somethin great, an expectation"
     # es = Elasticsearch(['http://elasticsearch:%s/%s'])
