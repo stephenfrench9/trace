@@ -93,26 +93,24 @@ def format():
     pp.pprint(a[0])
 
     print("***************************Span children****************************")
-    services = []
-    traces = []
-    spans = []
+
+    results = {}
     for trace in a:
         service = trace['_source']['process']['serviceName']
         traceID = trace['_source']['traceID']
         spanID = trace['_source']['spanID']
-        if service not in services:
-            services.append(service)
-        if traceID not in traces:
-            traces.append(traceID)
-        if spanID not in spans:
-            spans.append(spanID)
+        duration = trace['_source']['duration']
 
-    print("num services: %d" % len(services))
-    print("num traces: %d" % len(traces))
-    print("num spans: %d" % len(spans))
-    print("services: ", end = ''); print(services)
-    print("spans: ", end = ''); print(spans)
-    print("traces: ", end = ''); print(traces)
+        if traceID not in results.keys():
+            results[traceID] = {}
+
+        results[traceID][service] = duration
+
+    print("num traces: %d" % len(results))
+
+    for trace in results.keys():
+        print(results[trace])
+
     # app.logger.debug(res)
     # app.logger.debug(type(res))
 
