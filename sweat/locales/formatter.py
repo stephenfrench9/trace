@@ -40,8 +40,10 @@ def format():
     # object_methods = [method_name for method_name in dir(object)
     #                   if callable(getattr(object, method_name))]
     #
+    print("***************************Indices****************************")
     for index in es.indices.get('*'):
         print(index)
+    print("\n\n\n\n")
     #
     # # app.logger.debug(str(type(es)))
     # # app.logger.debug(str(object_methods))
@@ -50,24 +52,39 @@ def format():
     # # app.logger.debug(str(es.count))
     # # app.logger.debug(r.text)
     #
-    pp=pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-2019-04-26')
-    print(type(res))
-    pp.pprint(res)
-    print("list of hits")
-    a=res['hits']['hits']
-    print(type(a))
-    print(len(a))
+    pp = pprint.PrettyPrinter(indent=0)
+    res = es.search(index='jaeger-span-2019-04-26', size=1000)
 
-    print("\nTRACES\n")
+    # pp.pprint(res)
+    print("***************************Elasticsearch Query****************************")
+    a = res['hits']['hits']
+    print("Number of hits: %d" % len(a))
+    pp.pprint(a[0])
+    print("\nStats\n")
+
+    print("***************************Processed Query****************************")
+    services = []
+    traces = []
+    spans = []
     for trace in a:
-        print(trace['_source']['process']['serviceName'])
-        print(trace['_source']['traceID'])
+        service = trace['_source']['process']['serviceName']
+        traceID = trace['_source']['traceID']
+        spanID = trace['_source']['spanID']
+        if service not in services:
+            services.append(service)
+        if traceID not in traces:
+            traces.append(traceID)
+        if spanID not in spans:
+            spans.append(spanID)
 
+    print("num services: %d" % len(services))
+    print("num traces: %d" % len(traces))
+    print("num spans: %d" % len(spans))
+
+    print(spans)
 
     # app.logger.debug(res)
     # app.logger.debug(type(res))
-
 
     return "somethin great, an expectation"
     # es = Elasticsearch(['http://elasticsearch:%s/%s'])
