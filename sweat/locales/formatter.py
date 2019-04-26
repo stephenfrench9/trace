@@ -83,6 +83,36 @@ def format():
 
     print(spans)
 
+    print("***************************Search By Span****************************")
+
+    search = {"query": {"match": {'traceID': traces[0]}}}
+    res = es.search(index='jaeger-span-2019-04-26', body=search, size=1000)
+
+    a = res['hits']['hits']
+    print("Number of hits: %d" % len(a))
+    pp.pprint(a[0])
+
+    print("***************************Span children****************************")
+    services = []
+    traces = []
+    spans = []
+    for trace in a:
+        service = trace['_source']['process']['serviceName']
+        traceID = trace['_source']['traceID']
+        spanID = trace['_source']['spanID']
+        if service not in services:
+            services.append(service)
+        if traceID not in traces:
+            traces.append(traceID)
+        if spanID not in spans:
+            spans.append(spanID)
+
+    print("num services: %d" % len(services))
+    print("num traces: %d" % len(traces))
+    print("num spans: %d" % len(spans))
+    print("services: ", end = ''); print(services)
+    print("spans: ", end = ''); print(spans)
+    print("traces: ", end = ''); print(traces)
     # app.logger.debug(res)
     # app.logger.debug(type(res))
 
