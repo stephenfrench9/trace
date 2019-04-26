@@ -47,7 +47,7 @@ def format():
     # r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     size = 1000
-    threshold = 10000
+    threshold = 23000
     # # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
     #
     # object = es
@@ -87,13 +87,6 @@ def format():
         if (traceID == spanID):
             print("these are the same")
 
-    print("num services: %d" % len(services))
-    print("num traces: %d" % len(traces))
-    print("num spans: %d" % len(spans))
-
-    print(spans)
-    print(traces)
-
     print("***************************Search By Span****************************")
 
     # build events dictionary
@@ -128,23 +121,27 @@ def format():
         print(events[trace])
 
     # trim the events dictionary to only include slow events
-    deletes = []
-    for trace in events.keys():
-        if not events[trace]['slow']:
-            deletes.append(trace)
-    for delete in deletes:
-        del events[delete]
-        traces.remove(delete)
+    # deletes = []
+    # for trace in events.keys():
+    #     if not events[trace]['slow']:
+    #         deletes.append(trace)
+    # for delete in deletes:
+    #     del events[delete]
+    #     traces.remove(delete)
 
-    print()
 
     # see all the trace dictionaries
-    for trace in events.keys():
-        print(events[trace])
+    # for trace in events.keys():
+    #     print("dic from the event dictionary")
+    #     print(events[trace])
+
+    print('Number of Traces: %s' % len(events))
+    print('Number of Traces: %s' % len(traces))
 
     print("***************************One Trace****************************")
 
-    dist = {}
+    slow_counts = {}
+    fast_counts = {}
     for trace in traces:
         # find all the marginal arguments for ONE trace
         traces_in_span = []
@@ -164,27 +161,26 @@ def format():
             if marginalargset != [] and marginalargset != 'donee':
                 marginals_args.append(marginalargset)
 
-        # print("HERE ARE THE MARGINAL ARGS")
-        # print(marginals_args)
-        # print(len(events))
-        # print(events_num)
-
         # Add all the marginal_args to the distribution
-
         for args in marginals_args:
-            print("processing ", end='')
-            print(args)
-            # print(dist.keys())
-            if ",".join(args) not in list(dist.keys()):
-                dist[",".join(args)] = 1
-                print("new args")
-            else:
-                dist[",".join(args)] += 1
-                print("old args")
-            print()
+            if events[trace]['slow']:
+                if ",".join(args) not in list(slow_counts.keys()):
+                    slow_counts[",".join(args)] = 1
+                else:
+                    slow_counts[",".join(args)] += 1
+            elif not events[trace]['slow']:
+                if ",".join(args) not in list(slow_counts.keys()):
+                    fast_counts[",".join(args)] = 1
+                else:
+                    fast_counts[",".join(args)] += 1
 
-    print(dist)
-    print(len(traces))
+
+    print("fast_count length: %d" % len(fast_counts))
+    print("slow_count length: %d" % len(slow_counts))
+
+    print(fast_counts)
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    print(slow_counts)
 
     return "somethin great, an expectation"
 
