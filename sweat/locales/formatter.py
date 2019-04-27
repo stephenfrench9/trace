@@ -46,7 +46,7 @@ def format():
     # url = 'http://elasticsearch:9200/_stats/indexing'
     # r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
-    size = 100
+    size = 500
     threshold = 60000
     # # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
     #
@@ -60,7 +60,7 @@ def format():
         print(index)
     print("\n\n\n\n")
     pp = pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-2019-04-26', size = size)
+    res = es.search(index='jaeger-span-2019-04-27', size = size)
 
     # pp.pprint(res)
     print("***************************Elasticsearch Query****************************")
@@ -93,7 +93,7 @@ def format():
     events = {}
     for i in range(len(traces)):
         search = {"query": {"match": {'traceID': traces[i]}}}
-        res = es.search(index='jaeger-span-2019-04-26', body=search, size = size)
+        res = es.search(index='jaeger-span-2019-04-27', body=search, size = size)
         a = res['hits']['hits']  # all the spans to do with this trace
 
         for trace in a:
