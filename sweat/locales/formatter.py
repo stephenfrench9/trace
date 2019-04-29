@@ -43,37 +43,19 @@ def http_get(port, path, param, value):
 
 @app.route("/format")
 def format():
-    # you can use RFC-1738 to specify the url
-    # url = 'http://elasticsearch:9200/_stats/indexing'
-    # r = requests.get(url, timeout=1)
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     size = 500
     threshold = 60000
-    # # es = Elasticsearch(['https://user:secret@elasticsearch:443'])
-    #
-    # object = es
-    #
-    # object_methods = [method_name for method_name in dir(object)
-    #                   if callable(getattr(object, method_name))]
-    #
+
     d = str(datetime.datetime.today()).split()[0]
-    print("type: %s    value: %s" % (str(type(d)), str(d)))
-    print(str(datetime.datetime.today()).split()[0])
-    print("***************************Indices****************************")
-    for index in es.indices.get('*'):
-        print(index)
-    print("\n\n\n\n")
-    pp = pprint.PrettyPrinter(indent=0)
+
+    # get list of all traces
     res = es.search(index='jaeger-span-' + d, size=size)
-
-    # pp.pprint(res)
-    print("***************************Elasticsearch Query****************************")
     a = res['hits']['hits']
-    print("Number of hits: %d" % len(a))
-    pp.pprint(a[0])
-    print("\nStats\n")
+    # pp = pprint.PrettyPrinter(indent=0)
+    # pp.pprint(a[0])
 
-    print("***************************Processed Query****************************")
+    # get useful lists
     services = []
     traces = []
     spans = []
@@ -87,11 +69,6 @@ def format():
             traces.append(traceID)
         if spanID not in spans:
             spans.append(spanID)
-
-        if (traceID == spanID):
-            print("these are the same")
-
-    print("***************************Search By Span****************************")
 
     # build events dictionary
     events = {}
@@ -109,9 +86,6 @@ def format():
                 events[traceID] = {}
             events[traceID][service] = duration
 
-    # total number of events
-    events_num = len(events)
-
     # identify slow traces
     for trace in events.keys():
         slow = False
@@ -121,8 +95,8 @@ def format():
         events[trace]['slow'] = slow
 
     # see all the trace dictionaries
-    for trace in events.keys():
-        print(events[trace])
+    # for trace in events.keys():
+    #     print(events[trace])
 
     # trim the events dictionary to only include slow events
     # deletes = []
@@ -133,16 +107,11 @@ def format():
     #     del events[delete]
     #     traces.remove(delete)
 
-    # see all the trace dictionaries
-    # for trace in events.keys():
-    #     print("dic from the event dictionary")
-    #     print(events[trace])
+    # print some helpful statistics
+    # print('Number of Spans: %s' % len(events))
+    # print('Number of Traces: %s' % len(traces))
 
-    print('Number of Traces: %s' % len(events))
-    print('Number of Traces: %s' % len(traces))
-
-    print("***************************One Trace****************************")
-
+    # Get counts for (path, speed)
     slow_counts = {}
     fast_counts = {}
     for trace in traces:
@@ -177,55 +146,22 @@ def format():
                 else:
                     fast_counts[",".join(args)] += 1
 
-    print("fast_count length: %d" % len(fast_counts))
-    print("slow_count length: %d" % len(slow_counts))
-
-    print(fast_counts)
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-    print(slow_counts)
 
     # Calculate conditional distributions
-    for key in fast_counts:
-        print(key)
-
-    print("********************")
-
-    for key in slow_counts:
-        print(key)
-
-    print("slow count keys %s" % len(slow_counts))
-    print("fast count keys %s" % len(fast_counts))
-
-    for key in slow_counts.keys():
-        if key in fast_counts.keys():
-            print("its there")
-        else:
-            print("not there")
-
     cond_dist = {}
     for slow_args, slow_count in slow_counts.items():
         if slow_args in list(fast_counts.keys()):
             cond_dist[slow_args] = slow_count / (slow_count + fast_counts[slow_args])
         else:
             cond_dist[slow_args] = slow_count / slow_count
-    print(str(cond_dist))
 
     keys = []
-    values = []
     for k, v in cond_dist.items():
         keys.append(k.split(','))
         keys[-1].append(v)
 
 
     print(sorted(keys, key=len))
-
-
-
-
-
-
-    # print(sorted(keys, key=len))
-    # print(values)
 
     return "somethin great, an expectation"
 
