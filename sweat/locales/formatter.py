@@ -64,7 +64,7 @@ def format():
         print(index)
     print("\n\n\n\n")
     pp = pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-' + d, size = size)
+    res = es.search(index='jaeger-span-' + d, size=size)
 
     # pp.pprint(res)
     print("***************************Elasticsearch Query****************************")
@@ -97,7 +97,7 @@ def format():
     events = {}
     for i in range(len(traces)):
         search = {"query": {"match": {'traceID': traces[i]}}}
-        res = es.search(index='jaeger-span-' + d, body=search, size = size)
+        res = es.search(index='jaeger-span-' + d, body=search, size=size)
         a = res['hits']['hits']  # all the spans to do with this trace
 
         for trace in a:
@@ -133,7 +133,6 @@ def format():
     #     del events[delete]
     #     traces.remove(delete)
 
-
     # see all the trace dictionaries
     # for trace in events.keys():
     #     print("dic from the event dictionary")
@@ -160,7 +159,7 @@ def format():
         powersets = powerset(traces_in_span)
         marginals_args = []
         marginalargset = "whatever"
-        while(marginalargset != "donee"):
+        while (marginalargset != "donee"):
             marginalargset = next(powersets, 'donee')
             if marginalargset != [] and marginalargset != 'donee':
                 marginals_args.append(marginalargset)
@@ -177,7 +176,6 @@ def format():
                     fast_counts[",".join(args)] = 1
                 else:
                     fast_counts[",".join(args)] += 1
-
 
     print("fast_count length: %d" % len(fast_counts))
     print("slow_count length: %d" % len(slow_counts))
@@ -207,12 +205,27 @@ def format():
     cond_dist = {}
     for slow_args, slow_count in slow_counts.items():
         if slow_args in list(fast_counts.keys()):
-            cond_dist[slow_args] = slow_count/(slow_count + fast_counts[slow_args])
+            cond_dist[slow_args] = slow_count / (slow_count + fast_counts[slow_args])
         else:
-            cond_dist[slow_args] = slow_count/slow_count
+            cond_dist[slow_args] = slow_count / slow_count
     print(str(cond_dist))
 
+    keys = []
+    values = []
+    for k, v in cond_dist.items():
+        keys.append(k.split(','))
+        keys[-1].append(v)
 
+
+    print(sorted(keys, key=len))
+
+
+
+
+
+
+    # print(sorted(keys, key=len))
+    # print(values)
 
     return "somethin great, an expectation"
 
