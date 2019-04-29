@@ -8,6 +8,7 @@ from opentracing.propagation import Format
 from random import randint
 from elasticsearch import Elasticsearch
 import pprint
+import datetime
 
 app = Flask(__name__)
 
@@ -55,12 +56,15 @@ def format():
     # object_methods = [method_name for method_name in dir(object)
     #                   if callable(getattr(object, method_name))]
     #
+    d = str(datetime.datetime.today()).split()[0]
+    print("type: %s    value: %s" % (str(type(d)), str(d)))
+    print(str(datetime.datetime.today()).split()[0])
     print("***************************Indices****************************")
     for index in es.indices.get('*'):
         print(index)
     print("\n\n\n\n")
     pp = pprint.PrettyPrinter(indent=0)
-    res = es.search(index='jaeger-span-2019-04-27', size = size)
+    res = es.search(index='jaeger-span-' + d, size = size)
 
     # pp.pprint(res)
     print("***************************Elasticsearch Query****************************")
@@ -93,7 +97,7 @@ def format():
     events = {}
     for i in range(len(traces)):
         search = {"query": {"match": {'traceID': traces[i]}}}
-        res = es.search(index='jaeger-span-2019-04-27', body=search, size = size)
+        res = es.search(index='jaeger-span-' + d, body=search, size = size)
         a = res['hits']['hits']  # all the spans to do with this trace
 
         for trace in a:
