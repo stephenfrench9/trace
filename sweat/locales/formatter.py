@@ -86,6 +86,9 @@ def format():
                 events[traceID] = {}
             events[traceID][service] = duration
 
+    # for trace in events.keys():
+    #     print(events[trace])
+
     # identify slow traces
     for trace in events.keys():
         slow = False
@@ -93,23 +96,6 @@ def format():
             if events[trace][service] > threshold:
                 slow = True
         events[trace]['slow'] = slow
-
-    # see all the trace dictionaries
-    # for trace in events.keys():
-    #     print(events[trace])
-
-    # trim the events dictionary to only include slow events
-    # deletes = []
-    # for trace in events.keys():
-    #     if not events[trace]['slow']:
-    #         deletes.append(trace)
-    # for delete in deletes:
-    #     del events[delete]
-    #     traces.remove(delete)
-
-    # print some helpful statistics
-    # print('Number of Spans: %s' % len(events))
-    # print('Number of Traces: %s' % len(traces))
 
     # Get counts for (path, speed)
     slow_counts = {}
@@ -146,7 +132,6 @@ def format():
                 else:
                     fast_counts[",".join(args)] += 1
 
-
     # Calculate conditional distributions
     cond_dist = {}
     for slow_args, slow_count in slow_counts.items():
@@ -160,8 +145,15 @@ def format():
         keys.append(k.split(','))
         keys[-1].append(v)
 
+    diagnosis = sorted(keys, key=len)
 
-    print(sorted(keys, key=len))
+    result = ""
+    for diagnosis in diagnosis:
+        services = ' & '.join(diagnosis[:-1])
+        result = result + "P(" + str(services) + ") = " + str(round(diagnosis[-1],2)) + "\n"
+
+    print(result)
+
 
     return "somethin great, an expectation"
 
