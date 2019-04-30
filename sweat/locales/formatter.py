@@ -44,11 +44,11 @@ def http_get(port, path, param, value):
 @app.route("/format")
 def format():
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
-    size = 500
+    size = 1000
     threshold = 60000
 
     d = str(datetime.datetime.today()).split()[0]
-
+    d = "2019-04-30"
     # get list of all traces
     res = es.search(index='jaeger-span-' + d, size=size)
     a = res['hits']['hits']
