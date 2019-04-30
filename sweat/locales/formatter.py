@@ -41,7 +41,7 @@ def http_get(port, path, param, value):
     return r.text
 
 
-@app.route("/format")
+@app.route("/")
 def format():
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     size = 1000
@@ -150,15 +150,13 @@ def format():
     result = ""
     for diagnosis in diagnosis:
         services = ' & '.join(diagnosis[:-1])
-        result = result + "P(" + str(services) + ") = " + str(round(diagnosis[-1],2)) + "\n"
+        result = result + "P(" + str(services) + ") = " + str(round(diagnosis[-1], 2)) + "<br/>"
 
     print(result)
-
-
-    return "somethin great, an expectation"
-
+    return '<font size="22">' + result + '</font>'
+    
 
 if __name__ == "__main__":
     # app.run(port=8081)
-    # app.run(debug=True, host='0.0.0.0')
-    format()
+    app.run(debug=True, host='0.0.0.0', port=5000)
+    # format()
