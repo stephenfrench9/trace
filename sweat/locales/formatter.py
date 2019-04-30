@@ -154,7 +154,7 @@ def format():
 
     print(result)
     return '<font size="22">' + result + '</font>'
-    
+
 
 if __name__ == "__main__":
     # app.run(port=8081)
