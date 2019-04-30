@@ -1,6 +1,5 @@
 import requests
 
-
 from flask import Flask
 from flask import request
 from lib.tracing import init_tracer
@@ -12,9 +11,10 @@ app = Flask(__name__)
 tracer = init_tracer('search')
 bug = True
 
+
 def http_get(port, path, param, value, bug):
     url = 'http://app-db:%s/%s' % (port, path)
-    if randint(1,2)==2:
+    if randint(1, 2) == 2:
         url = 'http://app-db2:%s/%s' % (port, path)
 
     span = tracer.active_span
@@ -28,6 +28,7 @@ def http_get(port, path, param, value, bug):
     assert r.status_code == 200
     return r.text
 
+
 @app.route("/format")
 def format():
     global bug
@@ -37,7 +38,7 @@ def format():
         hello_to = request.args.get('helloTo')
         hello_to = hello_to + ',search'
         # if randint(1,20) == 4:
-            # bug = True
+        # bug = True
         try:
             hello_str = http_get(5000, 'format', 'helloTo', hello_to, bug)
             scope.span.log_kv({'event': 'search get request successful'})
@@ -45,10 +46,9 @@ def format():
             hello_str = hello_to
 
         hello_str = hello_str
-        return hello_str # two submissions to format servers
+        return hello_str  # two submissions to format servers
 
 
 if __name__ == "__main__":
     print("Running the flask app for search:")
     app.run(debug=True, host='0.0.0.0')
-
