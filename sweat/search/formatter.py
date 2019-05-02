@@ -9,12 +9,12 @@ from random import randint
 
 app = Flask(__name__)
 tracer = init_tracer('search')
-bug = True
+bug = False
 
 
 def http_get(port, path, param, value, bug):
     url = 'http://app-db:%s/%s' % (port, path)
-    if randint(1, 2) == 2:
+    if not randint(1, 3) == 2:
         url = 'http://app-db2:%s/%s' % (port, path)
 
     span = tracer.active_span
