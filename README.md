@@ -1,16 +1,28 @@
-# Distributed Tracing Can Solve Your Problems
+# BugFinder
+#### Distributed Tracing can solve your problems
 
 ## Intro 
-Microservice applications can be difficult to debug. This repo builds and deploys a microservice application to a kubernetes cluster. The application suffers from a bug which is difficult to diagnose with conventional logging methods, but is trivial to resolve with Distributed Tracing. The application is instrumented, and traces can be viewed in the jaeger fronted. 
+Microservice applications can be difficult to debug. A growing number of organizations combat this problem by instrumenting their applications with distributed tracing tools like 'Jaeger' or 'Zipkin'. Analyzing those traces can provide insight into why your application is running slowly, ultimately easing debugging pains. 
+
+Typically, one pays money to a service like New Relic or RookOut to analyze those traces. BugFinder is a free alternative to those services. (BugFinder provides significantly less functionality. It can also be used as an easy-to-understand exercise that provides exposure to the analysis that these SaaS platforms provide.)
+
+This repo does 3 main things:
+
+1. Launches a Kubernetes cluster on AWS using Kops
+2. Deploys a Jaeger-operator, Jaeger, and Elasticsearch to the K8s cluster
+3. Launches a 6-microservice testbed application
+
+The testbed application suffers from a bug which is difficult to diagnose with conventional logging methods, but is trivial to resolve with Distributed Tracing. The application is instrumented, and BugFinder locates the bug with ease.
 
 This code base is not meant to be run by the general public, because access to my dockerhub account is required. If you want to build and run this app, it is possible but will take some work. The instructions are below. 
 
-Visit my blog at https://medium.com/debugging-distributed-applications/debugging-distributed-applications-b6856122727e to learn more. 
+To learn about the bug that is baked into the application, visit my blog at https://medium.com/debugging-distributed-applications/debugging-distributed-applications-b6856122727e. 
 
 ## Directories
 
 ### archive/
-- old directories and log of attempts
+- old directories.
+- My journal of things I tried
 
 ### awsenv/ 
 - python virtual environment
@@ -22,12 +34,15 @@ Visit my blog at https://medium.com/debugging-distributed-applications/debugging
 - start up a cluster, initialized with kubernetes
 
 ### sweat/
-- launch my application
+- launch my testbed application
+- launch bugfinder
 - contains .yamls for all the services that run on kubernetes as part of this application
 - contains scripts to deploy those .yamls
 - contains source code to generate docker images for those services
 
 ## Instructions to Build and Run 
+
+#### The below instructions are currently in disrepair, check back later
 
 launch the applications
 
