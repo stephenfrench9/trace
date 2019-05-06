@@ -1,7 +1,7 @@
 # Bugfinder
-Bugfinder analyzes traces produced by Jaeger, and reports which services and combinations of services are likely to cause a Kubernetes application to respond slowly. Here is an example of the Bugfinder frontend.
+Bugfinder is a Kubernetes application that analyzes traces produced by Jaeger, and reports which services and combinations of services are likely to cause a Kubernetes application to respond slowly. Here is an example of the Bugfinder frontend.
 
-  <img src="./readmePics/Bugfinder-frontend.png" alt="my alt text"/> <figcaption>Fig 1: The Bugfinder fronted is reporting a 48% chance that the application will run slowly if the 'search' service is included in fulfilling the user's request. Note that if 'android' and 'search' microservices are involved in fulfilling the users request, there will be a 100% chance that the application responds slowly. </figcaption>
+  <img src="./readmePics/Bugfinder-frontend.png" alt="my alt text"/> <figcaption>Fig 1: Bugfinder is reporting a 48% chance that the application will run slowly if the 'search' service is included in fulfilling the user's request. Note that if 'android' and 'search' microservices are involved in fulfilling the users request, there will be a 100% chance that the application responds slowly. </figcaption>
 
 ## Motivation and Explanation 
 Microservice applications can be difficult to debug. A growing number of organizations combat this problem by instrumenting their applications with distributed tracing tools like 'Jaeger' or 'Zipkin'. Analyzing those traces can provide insight into why your application is running slowly, ultimately easing debugging pains. 
