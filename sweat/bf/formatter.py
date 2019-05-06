@@ -49,8 +49,9 @@ def format():
     size = 1000
     threshold = 60000
 
-    d = str(datetime.datetime.today()).split()[0]
-    d = "2019-04-30"
+    # d = str(datetime.datetime.today()).split()[0]
+    # d = "2019-04-30"
+    d = str(datetime.datetime.utcnow()).split()[0]
     # get list of all traces
     res = es.search(index='jaeger-span-' + d, size=size)
     a = res['hits']['hits']

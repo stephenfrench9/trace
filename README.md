@@ -1,7 +1,9 @@
 # Bugfinder
-#### Distributed Tracing can solve your problems
+Bugfinder analyzes traces produced by Jaeger, and reports which services and combinations of services are likely to cause a Kubernetes application to respond slowly. Here is an example of the Bugfinder frontend.
 
-## Intro 
+  <img src="./readmePics/Bugfinder-frontend.png" alt="my alt text"/> <figcaption>Fig 1: The Bugfinder fronted is reporting a 48% chance that the application will run slowly if the 'search' service is included in fulfilling the user's request. Note that if 'android' and 'search' microservices are involved in fulfilling the users request, there will be a 100% chance that the application responds slowly. </figcaption>
+
+## Motivation and Explanation 
 Microservice applications can be difficult to debug. A growing number of organizations combat this problem by instrumenting their applications with distributed tracing tools like 'Jaeger' or 'Zipkin'. Analyzing those traces can provide insight into why your application is running slowly, ultimately easing debugging pains. 
 
 Typically, one pays money to a service like New Relic or RookOut to analyze those traces. BugFinder is a free alternative to those services. (BugFinder provides significantly less functionality. BugFinder can also be understood as exercise that provides exposure to the analysis that these SaaS platforms provide.)
@@ -17,16 +19,9 @@ The testbed application suffers from a bug which is difficult to diagnose with c
  
 ## Bugfinder in Action
 
-To see Bugfinder in action, visit my blog at https://medium.com/debugging-distributed-applications/debugging-distributed-applications-b6856122727e.
+To see Bugfinder in action, visit my [blog](https://medium.com/debugging-distributed-applications/debugging-distributed-applications-b6856122727e).
 
 This code base is not meant to be run by the general public, because access to my dockerhub account is required. If you want to build and run this app, it is possible but will take some work. The instructions are below.
-
-## BugFinder
-
-Here is the bugfinder frontend:
-
-db, android, ios, etc. all refer to microservices running on the cluster. These particular microservices 
-
 
 ## Directories
 
@@ -42,6 +37,10 @@ db, android, ios, etc. all refer to microservices running on the cluster. These 
 
 ### launch/
 - start up a cluster, initialized with kubernetes
+- this folder probably won't work for you. On your own, you will need to figure out how to get a configured kubectl connected to a cluster.
+
+### readmePics/
+- readme pictures
 
 ### sweat/
 - launch my testbed application
